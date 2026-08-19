@@ -1,2 +1,0 @@
-Put your real thumbnails/gallery images here, using the names referenced by projects.js.
-Example: project-01.webp, project-01-01.webp, etc.
