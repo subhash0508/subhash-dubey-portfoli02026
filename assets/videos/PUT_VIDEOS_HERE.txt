@@ -1,2 +1,0 @@
-Put your real project MP4 files here, using the names referenced by projects.js.
-Example: project-01.mp4, project-01-02.mp4, etc.
