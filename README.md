@@ -1,4 +1,6 @@
-# Subhash Dubey — Premium Portfolio
+# Subhash Dubey — Portfolio (2026 redesign)
+
+Main live site: https://subhash0508.github.io/subhash-dubey-portfolio0026/
 
 > The site is designed to work by opening `index.html` directly. If your browser blocks local JavaScript, use GitHub Pages or a simple local server; the visible layout still has fallbacks.
 
@@ -116,3 +118,8 @@ The website Resume and Contact sections were populated from the supplied resume,
 | `project-02.webp` … `project-20.webp` | `assets/images/` | 1600×1000 (16:10), webp |
 | `project-02.mp4` … | `assets/videos/` | 720p, <5 MB, 5–20 sec loop |
 | `showreel.mp4` + `showreel-poster.webp` | `assets/videos/`, `assets/images/` | 1080p, 60–90 sec |
+
+### Is version me
+- Recognition (Prashasti award) — `assets/awards/`
+- Software ratings + AI toolkit icons — `assets/icons/`
+- Showreel button YouTube channel par jaata hai (`config.js` → `showreel`)

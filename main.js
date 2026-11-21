@@ -59,9 +59,9 @@
     const poster = cfg.showreelPoster || "";
     if (!src) reel.closest("section").hidden = true;
     if (src) {
-      const title = "Showreel " + new Date().getFullYear();
-      const sub = "Motion · Video · Design · AI";
       const rv = parseVideo(src);
+      const title = "Showreel " + new Date().getFullYear();
+      const sub = rv.type === "external" ? `Watch on ${/youtube/.test(rv.site) ? "YouTube" : rv.site} ↗` : "Motion · Video · Design · AI";
       const rposter = poster || rv.thumb || "";
       reel.innerHTML = `
         ${rv.type === "file" ? `<video playsinline preload="none" poster="${esc(rposter)}" src="${esc(src)}"></video>` : (rposter ? `<img src="${esc(rposter)}" alt="Showreel">` : "")}
@@ -71,6 +71,7 @@
         </div>`;
       const v = $("video", reel);
       const start = () => {
+        if (rv.type === "external") { window.open(rv.link, "_blank", "noopener"); return; }
         reel.classList.add("playing");
         if (v) { v.controls = true; v.play().catch(() => {}); }
         else if (rv.type === "external") window.open(rv.link, "_blank", "noopener");
@@ -240,8 +241,8 @@
   if ("IntersectionObserver" in window && !reduceMotion) {
     const co = new IntersectionObserver(es => es.forEach(e => {
       if (!e.isIntersecting) return;
-      const el = e.target, to = Number(el.dataset.count), t0 = performance.now(), dur = 1400;
-      const tick = t => { const k = Math.min(1, (t - t0) / dur); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(tick); };
+      const el = e.target, to = Number(el.dataset.count), dec = (el.dataset.count.split(".")[1] || "").length, t0 = performance.now(), dur = 1400;
+      const tick = t => { const k = Math.min(1, (t - t0) / dur); el.textContent = (to * (1 - Math.pow(1 - k, 3))).toFixed(dec); if (k < 1) requestAnimationFrame(tick); };
       requestAnimationFrame(tick); co.unobserve(el);
     }), { threshold: .6 });
     $$("[data-count]").forEach(el => { el.textContent = "0"; co.observe(el); });
@@ -261,7 +262,7 @@
     const so = new IntersectionObserver(es => es.forEach(e => {
       if (e.isIntersecting) links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id));
     }), { rootMargin: "-45% 0px -50% 0px" });
-    ["work", "about", "services", "experience", "contact"].forEach(id => { const s = document.getElementById(id); if (s) so.observe(s); });
+    ["work", "about", "services", "experience", "recognition", "contact"].forEach(id => { const s = document.getElementById(id); if (s) so.observe(s); });
   }
 
   /* ---------------- Copy email ---------------- */

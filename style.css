@@ -520,3 +520,60 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: v
 .meter span { display: block; height: 100%; width: var(--v); background: linear-gradient(90deg, var(--accent), var(--accent-2)); transform-origin: 0 50%; transform: scaleX(0); transition: transform 1.4s var(--ease) .3s; }
 .ai-skill.visible .meter span, html:not(.js) .meter span { transform: none; }
 @media (max-width: 960px) { .ai-skills { grid-template-columns: 1fr; } }
+
+/* =========================================================================
+   AUTOMATION CARD
+   ========================================================================= */
+.auto-card { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(24px, 4vw, 64px); margin-top: 16px; padding: clamp(24px, 4vw, 48px); border-radius: var(--radius); border: 1px dashed rgba(255, 179, 107, .35); background: rgba(255, 179, 107, .03); }
+.auto-card h3 { font-size: clamp(28px, 3.4vw, 44px); letter-spacing: -.035em; }
+.auto-card p { margin: 0 0 18px; color: #cbc6bd; }
+.auto-card .pipeline { margin: 0; font: 500 13px/1.9 var(--f-mono); color: var(--accent-2); letter-spacing: .02em; }
+
+/* =========================================================================
+   RECOGNITION
+   ========================================================================= */
+.awards { display: grid; grid-template-columns: 1.25fr 1fr; grid-template-rows: auto auto; gap: 20px; }
+.award { display: flex; flex-direction: column; border-radius: var(--radius); overflow: hidden; background: var(--bg-2); border: 1px solid var(--line); transition: border-color .3s, transform .4s var(--ease); }
+.award:hover { border-color: var(--accent); transform: translateY(-4px); }
+.award-main { grid-row: span 2; }
+.award-img { position: relative; background: #000; overflow: hidden; flex: 1; min-height: 200px; }
+.award-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+.award-main .award-img img { object-fit: contain; background: #1a1a1c; }
+.award:hover .award-img img { transform: scale(1.04); }
+.award-info { padding: clamp(18px, 2.4vw, 28px); }
+.award-info small { font: 500 13px var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--accent-2); }
+.award-info h3 { font-size: clamp(22px, 2.4vw, 30px); margin: 10px 0 8px; letter-spacing: -.03em; }
+.award-info p { margin: 0; color: var(--muted); font-size: 15px; }
+
+/* =========================================================================
+   TOOLKIT
+   ========================================================================= */
+.tool-head { font: 500 13px var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 16px; }
+.tool-head:not(:first-of-type) { margin-top: 48px; }
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.ai-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.tool { display: flex; align-items: center; gap: 16px; padding: 16px 18px; border-radius: var(--radius-sm); background: var(--bg-2); border: 1px solid var(--line); transition: border-color .3s, transform .4s var(--ease); }
+.tool:hover { border-color: var(--accent); transform: translateY(-3px); }
+.tool img, .ico-txt { width: 44px; height: 44px; flex: none; border-radius: 11px; object-fit: contain; }
+.ico-txt { display: grid; place-items: center; background: #d97757; color: #fff; font: 700 20px var(--f-display); }
+.tool-txt { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.tool-txt b { font-weight: 600; font-size: 16px; }
+.tool-txt small { color: var(--muted); font-size: 13px; }
+.tool-txt .meter { margin-top: 8px; }
+.tool.visible .meter span { transform: none; }
+.tool-score { font: 700 22px var(--f-display); letter-spacing: -.02em; }
+.tool-score i { font: 400 13px var(--f-body); color: var(--muted); font-style: normal; }
+
+.cv-wide { grid-column: 1 / -1; }
+.strengths { margin: 0; color: #cbc6bd; line-height: 1.9; }
+.socials { grid-template-columns: repeat(5, 1fr); }
+
+@media (max-width: 1100px) { .socials { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 860px) {
+  .auto-card, .awards { grid-template-columns: 1fr; }
+  .award-main { grid-row: auto; }
+}
+@media (max-width: 600px) { .socials { grid-template-columns: 1fr 1fr; } .tool-grid, .ai-grid { grid-template-columns: 1fr; } .ai-grid { grid-template-columns: 1fr 1fr; } .tool-ai { flex-direction: column; align-items: flex-start; gap: 10px; } .hero-stats > div { flex: 1 1 40%; } }
+.award-main .award-img { flex: none; aspect-ratio: 4 / 3; }
+.award-main .award-img img { object-fit: cover; background: none; }
+.award-main .award-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }

@@ -1,14 +1,13 @@
 window.SITE_CONFIG = {
   name: "Subhash Dubey",
-  title: "Senior Motion Graphics Designer | Video Editor | Graphic Designer | AI Creative Expert",
-  experience: "6+ Years",
-  location: "Bhopal, Madhya Pradesh, India",
-  phone: "+91 89622 83817",
   email: "subhashdubey728@yahoo.com",
+  phone: "+91 89622 83817",
   linkedin: "https://www.linkedin.com/in/subhash-dubey-4158206a/",
   behance: "https://www.behance.net/subhashdubey",
   instagram: "https://www.instagram.com/vsproduction01",
+  youtube: "https://www.youtube.com/@subhashdubey-01",
   resume: "assets/Subhash-Dubey-Resume.pdf",
-  showreel: "",          // MP4 path ya YouTube/Drive/Vimeo link. Khaali = showreel section hide
-  showreelPoster: ""
+  // Showreel: MP4 path ya YouTube video/channel, Drive, Vimeo link. Khaali = section hide
+  showreel: "https://www.youtube.com/@subhashdubey-01",
+  showreelPoster: "assets/images/project-01.webp"
 };
