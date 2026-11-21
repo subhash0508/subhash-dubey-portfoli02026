@@ -22,6 +22,19 @@
    So you can wire up real media gradually, project by project.
    ========================================================================= */
 
+/* -------------------------------------------------------------------------
+   VIDEO LINKS — "video" me seedha link paste kar sakte ho:
+     YouTube   : "https://www.youtube.com/watch?v=XXXXXXXXXXX"  (ya youtu.be/…)
+     Shorts    : "https://youtube.com/shorts/XXXXXXXXXXX"       (vertical player)
+     Instagram : "https://www.instagram.com/reel/XXXXXXX/"      (vertical player)
+     Drive     : "https://drive.google.com/file/d/FILE_ID/view" (sharing: "Anyone with the link")
+     Vimeo     : "https://vimeo.com/123456789"
+     Local MP4 : "assets/videos/project-02.mp4"
+   YouTube/Drive ka thumbnail apne aap aa jata hai — "thumbnail" khaali chhod sakte ho.
+   Instagram ke liye thumbnail image dena achha rahega.
+   Card dikhane ke liye "title" bharo (jo title "[" se shuru hai wo hide rehta hai).
+   ------------------------------------------------------------------------- */
+
 window.PROJECTS = [
   {
   id: 1,
@@ -32,7 +45,7 @@ window.PROJECTS = [
 
   thumbnail: "assets/images/project-01.webp",
 
-  video: "assets/videos/project-01.mp4",
+  video: "assets/videos/project-01-web.mp4",   // compressed 720p (2.9 MB). Original: project-01.mp4
 
   gallery: [],
 

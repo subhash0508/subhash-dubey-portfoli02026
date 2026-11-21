@@ -9,6 +9,6 @@ window.SITE_CONFIG = {
   behance: "https://www.behance.net/subhashdubey",
   instagram: "https://www.instagram.com/vsproduction01",
   resume: "assets/Subhash-Dubey-Resume.pdf",
-  showreel: "",
+  showreel: "",          // MP4 path ya YouTube/Drive/Vimeo link. Khaali = showreel section hide
   showreelPoster: ""
 };
