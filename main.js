@@ -51,35 +51,57 @@
   /* ---------------- Config-driven links ---------------- */
   $$('a[href$="Subhash-Dubey-Resume.pdf"]').forEach(a => { if (cfg.resume) a.href = cfg.resume; });
 
-  /* ---------------- Showreel ---------------- */
-  const reel = $("#showreelMount");
-  if (reel) {
-    // No showreel set in config.js → hide the section (featured project already leads the Work grid)
-    const src = cfg.showreel;
-    const poster = cfg.showreelPoster || "";
-    if (!src) reel.closest("section").hidden = true;
-    if (src) {
-      const rv = parseVideo(src);
-      const title = "Showreel " + new Date().getFullYear();
-      const sub = rv.type === "external" ? (/sdmotionstudio/i.test(rv.link) ? "SDMotion Studio · Showreel channel ↗" : `Watch on ${/youtube/.test(rv.site) ? "YouTube" : rv.site} ↗`) : "Motion · Video · Design · AI";
-      const rposter = poster || rv.thumb || "";
-      reel.innerHTML = `
-        ${rv.type === "file" ? `<video playsinline preload="none" poster="${esc(rposter)}" src="${esc(src)}"></video>` : (rposter ? `<img src="${esc(rposter)}" alt="Showreel">` : "")}
-        <div class="reel-cover">
-          <div class="reel-meta"><small>${esc(sub)}</small><h3>${esc(title)}</h3></div>
-          <button class="play-btn" aria-label="Play video">▶</button>
-        </div>`;
-      const v = $("video", reel);
-      const start = () => {
-        if (rv.type === "external") { window.open(rv.link, "_blank", "noopener"); return; }
-        reel.classList.add("playing");
-        if (v) { v.controls = true; v.play().catch(() => {}); }
-        else if (rv.type === "external") window.open(rv.link, "_blank", "noopener");
-        else { reel.insertAdjacentHTML("afterbegin", embedHTML(rv, rposter)); $("img", reel)?.remove(); }
-      };
-      reel.addEventListener("click", e => { if (!reel.classList.contains("playing")) { e.preventDefault(); start(); } });
-      v?.addEventListener("ended", () => { reel.classList.remove("playing"); v.controls = false; });
+  /* ---------------- Showreel: player + all channel videos ---------------- */
+  const reel = $("#showreelMount"), strip = $("#reelStrip"), tabs = $("#reelTabs"), reelInfo = $("#reelInfo");
+  const reelList = projects.filter(p => p.video);
+  if (reel && !reelList.length) reel.closest("section").hidden = true;
+  if (reel && reelList.length) {
+    const channelUrl = { "SDMotion Studio": cfg.studio || "https://www.youtube.com/@sdmotionstudio-p8s", "Storyverse SD": cfg.youtube || "https://www.youtube.com/@subhashdubey-01" };
+    let reelItems = reelList.slice(), cur = reelList[0];
+    const ytLink = p => p.link || ((parseVideo(p.video) || {}).type !== "file" ? p.video : "");
+    function stage(p, play) {
+      cur = p;
+      const v = parseVideo(p.video), poster = thumbOf(p);
+      reel.classList.toggle("playing", !!play);
+      reel.classList.toggle("vertical", !!(p.vertical ?? v.vertical) && !!play);
+      if (play) {
+        reel.innerHTML = embedHTML(v, poster, true);
+      } else {
+        reel.innerHTML = `${poster ? `<img src="${esc(poster)}" alt="${esc(p.title)}">` : ""}
+          <div class="reel-cover">
+            <div class="reel-meta"><small>▶ ${esc(p.channel || "")}${p.category ? " · " + esc(p.category) : ""}</small><h3>${esc(p.title)}</h3></div>
+            <button class="play-btn" aria-label="Play ${esc(p.title)}">▶</button>
+          </div>`;
+      }
+      const yl = ytLink(p);
+      if (reelInfo) reelInfo.innerHTML = `<span><b>${esc(p.title)}</b>${p.channel ? ` · <a href="${esc(channelUrl[p.channel] || "#")}" target="_blank" rel="noopener">${esc(p.channel)}</a>` : ""}</span>${yl ? `<a class="reel-yt" href="${esc(yl)}" target="_blank" rel="noopener">Watch on YouTube ↗</a>` : ""}`;
+      $$(".rs-item", strip).forEach(el => el.classList.toggle("active", Number(el.dataset.id) === p.id));
     }
+    reel.addEventListener("click", e => { if (!reel.classList.contains("playing")) { e.preventDefault(); stage(cur, true); } });
+    function renderStrip() {
+      strip.innerHTML = reelItems.map(p => `
+        <button class="rs-item" data-id="${p.id}" aria-label="Play ${esc(p.title)}">
+          <span class="rs-thumb">${thumbOf(p) ? `<img loading="lazy" src="${esc(thumbOf(p))}" alt="">` : ""}<i>▶</i></span>
+          <span class="rs-title">${esc(p.title)}</span>
+          <span class="rs-ch">${esc(p.channel || "")}</span>
+        </button>`).join("");
+      $$(".rs-item", strip).forEach(el => el.addEventListener("click", () => {
+        const p = reelItems.find(x => x.id === Number(el.dataset.id));
+        stage(p, true);
+        reel.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
+      }));
+    }
+    if (tabs) {
+      const chans = [...new Set(reelList.map(p => p.channel).filter(Boolean))];
+      tabs.innerHTML = ["All", ...chans].map((c, i) => `<button class="filter-btn${i === 0 ? " active" : ""}" data-ch="${esc(c)}">${esc(c)}<sup>${i === 0 ? reelList.length : reelList.filter(p => p.channel === c).length}</sup></button>`).join("");
+      tabs.addEventListener("click", e => {
+        const b = e.target.closest(".filter-btn"); if (!b) return;
+        $$(".filter-btn", tabs).forEach(x => x.classList.toggle("active", x === b));
+        reelItems = b.dataset.ch === "All" ? reelList.slice() : reelList.filter(p => p.channel === b.dataset.ch);
+        renderStrip(); stage(reelItems[0], false);
+      });
+    }
+    renderStrip(); stage(cur, false);
   }
 
   /* ---------------- Work grid ---------------- */

@@ -18,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="assets/images/subhash-profile.webp">
-  <link rel="stylesheet" href="style.css?v=20261121e">
+  <link rel="stylesheet" href="style.css?v=20261121f">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -111,11 +111,15 @@
     <!-- ============ SHOWREEL ============ -->
     <section id="showreel" class="section showreel">
       <div class="container">
-        <div class="section-head reveal">
-          <p class="label"><span>00</span> Showreel</p>
-          <h2 id="showreelTitle">Showreel <em>2026.</em></h2>
+        <div class="section-head split-head reveal">
+          <div><p class="label"><span>00</span> Showreel</p>
+          <h2 id="showreelTitle">Showreel <em>2026.</em></h2></div>
+          <p class="head-note">All videos from my two YouTube channels — tap any video to play it here.</p>
         </div>
+        <div id="reelTabs" class="filters reveal" aria-label="Channels"></div>
         <div id="showreelMount" class="reel reveal" data-cursor="Play"></div>
+        <div id="reelInfo" class="reel-info"></div>
+        <div id="reelStrip" class="reel-strip" aria-label="All videos"></div>
       </div>
     </section>
 
@@ -539,8 +543,8 @@
     </div>
   </div>
 
-  <script src="config.js?v=20261121e"></script>
-  <script src="projects.js?v=20261121e"></script>
-  <script src="main.js?v=20261121e"></script>
+  <script src="config.js?v=20261121f"></script>
+  <script src="projects.js?v=20261121f"></script>
+  <script src="main.js?v=20261121f"></script>
 </body>
 </html>
