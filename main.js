@@ -16,6 +16,36 @@
   const allProjects = Array.isArray(window.PROJECTS) ? window.PROJECTS : [];
   const projects = allProjects.filter(p => p && p.title && !String(p.title).trim().startsWith("[") && p.hidden !== true);
 
+  /* ---------------- Video links (YouTube / Shorts / Vimeo / Drive / Instagram / MP4) ---------------- */
+  function parseVideo(url) {
+    if (!url) return null;
+    const u = String(url).trim();
+    let m;
+    if ((m = u.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/))) {
+      const short = /\/shorts\//.test(u);
+      return { type: "youtube", id: m[1], vertical: short, link: u,
+        embed: `https://www.youtube-nocookie.com/embed/${m[1]}?autoplay=1&rel=0&modestbranding=1&playsinline=1`,
+        thumb: `https://i.ytimg.com/vi/${m[1]}/hqdefault.jpg`, site: "YouTube" };
+    }
+    if ((m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/)))
+      return { type: "vimeo", id: m[1], link: u, embed: `https://player.vimeo.com/video/${m[1]}?autoplay=1`, thumb: `https://vumbnail.com/${m[1]}.jpg`, site: "Vimeo" };
+    if ((m = u.match(/drive\.google\.com\/(?:file\/d\/|open\?id=|uc\?(?:.*&)?id=)([\w-]{20,})/)))
+      return { type: "drive", id: m[1], link: u, embed: `https://drive.google.com/file/d/${m[1]}/preview`, thumb: `https://drive.google.com/thumbnail?id=${m[1]}&sz=w1600`, site: "Google Drive" };
+    if ((m = u.match(/instagram\.com\/(?:[\w.]+\/)?(reels?|p|tv)\/([\w-]+)/)))
+      return { type: "instagram", id: m[2], vertical: true, link: u, embed: `https://www.instagram.com/${m[1] === "reels" ? "reel" : m[1]}/${m[2]}/embed/`, thumb: "", site: "Instagram" };
+    if (/^https?:\/\//.test(u) && !/\.(mp4|webm|mov|m4v)(\?|#|$)/i.test(u))
+      return { type: "external", link: u, thumb: "", site: (u.match(/^https?:\/\/(?:www\.)?([^/]+)/) || [])[1] || "link" };
+    return { type: "file", src: u, link: u, thumb: "" };
+  }
+  const thumbOf = p => p.thumbnail || (parseVideo(p.video) || {}).thumb || "";
+  function embedHTML(v, poster, autoplay = true) {
+    if (!v) return "";
+    if (v.type === "file") return `<video controls ${autoplay ? "autoplay" : ""} playsinline preload="metadata" poster="${esc(poster || "")}" src="${esc(v.src)}"></video>`;
+    if (v.type === "external") return `<a class="ext-video" href="${esc(v.link)}" target="_blank" rel="noopener">${poster ? `<img src="${esc(poster)}" alt="">` : ""}<span>▶ Watch on ${esc(v.site)} ↗</span></a>`;
+    const src = autoplay ? v.embed : v.embed.replace(/[?&]autoplay=1/, "");
+    return `<iframe src="${esc(src)}" title="Video" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+  }
+
   requestAnimationFrame(() => setTimeout(() => root.classList.add("loaded"), 80));
 
   /* ---------------- Config-driven links ---------------- */
@@ -31,16 +61,23 @@
     if (src) {
       const title = "Showreel " + new Date().getFullYear();
       const sub = "Motion · Video · Design · AI";
+      const rv = parseVideo(src);
+      const rposter = poster || rv.thumb || "";
       reel.innerHTML = `
-        <video playsinline preload="none" poster="${esc(poster)}" src="${esc(src)}"></video>
+        ${rv.type === "file" ? `<video playsinline preload="none" poster="${esc(rposter)}" src="${esc(src)}"></video>` : (rposter ? `<img src="${esc(rposter)}" alt="Showreel">` : "")}
         <div class="reel-cover">
           <div class="reel-meta"><small>${esc(sub)}</small><h3>${esc(title)}</h3></div>
           <button class="play-btn" aria-label="Play video">▶</button>
         </div>`;
       const v = $("video", reel);
-      const start = () => { reel.classList.add("playing"); v.controls = true; v.play().catch(() => {}); };
+      const start = () => {
+        reel.classList.add("playing");
+        if (v) { v.controls = true; v.play().catch(() => {}); }
+        else if (rv.type === "external") window.open(rv.link, "_blank", "noopener");
+        else { reel.insertAdjacentHTML("afterbegin", embedHTML(rv, rposter)); $("img", reel)?.remove(); }
+      };
       reel.addEventListener("click", e => { if (!reel.classList.contains("playing")) { e.preventDefault(); start(); } });
-      v.addEventListener("ended", () => { reel.classList.remove("playing"); v.controls = false; });
+      v?.addEventListener("ended", () => { reel.classList.remove("playing"); v.controls = false; });
     }
   }
 
@@ -51,15 +88,16 @@
 
   function card(p, i, list) {
     const feature = i === 0 && list.length % 2 === 1;
-    const thumb = p.thumbnail
-      ? `<img loading="lazy" src="${esc(p.thumbnail)}" alt="${esc(p.title)}" onerror="this.remove()">`
-      : "";
-    const preview = p.previewVideo || p.video;
+    const pv = parseVideo(p.video);
+    const t = thumbOf(p);
+    const thumb = t ? `<img loading="lazy" src="${esc(t)}" alt="${esc(p.title)}" onerror="this.remove()">` : "";
+    // hover preview only for local/direct MP4 files
+    const preview = p.previewVideo || (pv && pv.type === "file" ? p.video : "");
     const vid = preview ? `<video muted loop playsinline preload="none" data-src="${esc(preview)}" aria-hidden="true"></video>` : "";
     return `
       <article class="project-card reveal${feature ? " feature" : ""}" data-id="${p.id}" tabindex="0" role="button" aria-label="Open project: ${esc(p.title)}" data-cursor="View">
         <div class="project-media">
-          <div class="media-fallback">SUBHASH DUBEY / ${pad(p.id)}</div>
+          <div class="media-fallback">${pv && pv.site && pv.type !== "file" ? "▶ " + esc(pv.site.toUpperCase()) : "SUBHASH DUBEY / " + pad(p.id)}</div>
           ${thumb}${vid}
           <span class="project-badge${p.video ? " play" : ""}">${esc(p.category || "Project")}</span>
           <span class="project-view" aria-hidden="true">↗</span>
@@ -141,12 +179,19 @@
     $("#modalTools").innerHTML = (p.tools || []).map(t => `<span>${esc(t)}</span>`).join("");
     $("#modalCount").textContent = `${pad(idx + 1)} / ${pad(visible.length)}`;
     $("#prevProject").disabled = $("#nextProject").disabled = visible.length < 2;
-    $("#modalMedia").innerHTML = p.video
-      ? `<video controls autoplay playsinline preload="metadata" poster="${esc(p.thumbnail || "")}" src="${esc(p.video)}"></video>`
-      : `<img src="${esc(p.thumbnail || "")}" alt="${esc(p.title)}">`;
+    const mv = parseVideo(p.video);
+    const mm = $("#modalMedia");
+    mm.classList.toggle("vertical", !!(p.vertical ?? (mv && mv.vertical)));
+    mm.innerHTML = mv ? embedHTML(mv, thumbOf(p)) : `<img src="${esc(thumbOf(p))}" alt="${esc(p.title)}">`;
+    const ml = $("#modalLink");
+    if (ml) {
+      const show = mv && mv.type !== "file";
+      ml.hidden = !show;
+      if (show) { ml.href = mv.link; ml.innerHTML = `Watch on ${esc(mv.site)} <span>↗</span>`; }
+    }
     $("#modalGallery").innerHTML = [
       ...(p.gallery || []).filter(Boolean).map(s => `<img loading="lazy" src="${esc(s)}" alt="${esc(p.title)}" onerror="this.remove()">`),
-      ...(p.additionalVideos || []).filter(Boolean).map(s => `<video controls playsinline preload="metadata" src="${esc(s)}" onerror="this.remove()"></video>`)
+      ...(p.additionalVideos || []).filter(Boolean).map(s => { const v = parseVideo(s); return `<div class="g-video${v.vertical ? " vertical" : ""}">${embedHTML(v, v.thumb, false)}</div>`; })
     ].join("");
     modal.classList.add("open"); modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
