@@ -10,5 +10,5 @@ window.SITE_CONFIG = {
   resume: "assets/Subhash-Dubey-Resume-2026.pdf",
   // Showreel: MP4 path ya YouTube video/channel, Drive, Vimeo link. Khaali = section hide
   showreel: "https://www.youtube.com/@sdmotionstudio-p8s",
-  showreelPoster: "assets/images/project-02.webp"
+  showreelPoster: "assets/images/project-03.webp"   // Dr Doom (SDMotion Studio)
 };

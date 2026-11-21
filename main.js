@@ -61,7 +61,7 @@
     if (src) {
       const rv = parseVideo(src);
       const title = "Showreel " + new Date().getFullYear();
-      const sub = rv.type === "external" ? `Watch on ${/youtube/.test(rv.site) ? "YouTube" : rv.site} ↗` : "Motion · Video · Design · AI";
+      const sub = rv.type === "external" ? (/sdmotionstudio/i.test(rv.link) ? "SDMotion Studio · Showreel channel ↗" : `Watch on ${/youtube/.test(rv.site) ? "YouTube" : rv.site} ↗`) : "Motion · Video · Design · AI";
       const rposter = poster || rv.thumb || "";
       reel.innerHTML = `
         ${rv.type === "file" ? `<video playsinline preload="none" poster="${esc(rposter)}" src="${esc(src)}"></video>` : (rposter ? `<img src="${esc(rposter)}" alt="Showreel">` : "")}
@@ -105,7 +105,7 @@
           <span class="project-view" aria-hidden="true">↗</span>
         </div>
         <div class="project-info">
-          <div><h3>${esc(p.title)}</h3><p>${esc(p.role || "")}</p></div>
+          <div><h3>${esc(p.title)}</h3><p>${esc(p.role || "")}</p>${p.channel ? `<p class="ch-tag">▶ ${esc(p.channel)}</p>` : ""}</div>
           <span class="yr">${esc(p.year || "")}</span>
         </div>
       </article>`;
@@ -190,7 +190,7 @@
     if (ml) {
       const lv = p.link ? parseVideo(p.link) : (mv && mv.type !== "file" ? mv : null);
       ml.hidden = !lv;
-      if (lv) { const site = /youtu/.test(lv.link) ? "YouTube" : lv.site; ml.href = lv.link; ml.innerHTML = `Watch on ${esc(site)} <span>↗</span>`; }
+      if (lv) { const site = /youtu/.test(lv.link) ? "YouTube" : lv.site; ml.href = lv.link; ml.innerHTML = `Watch on ${esc(site)}${p.channel && site === "YouTube" ? " · " + esc(p.channel) : ""} <span>↗</span>`; }
     }
     $("#modalGallery").innerHTML = [
       ...(p.gallery || []).filter(Boolean).map(s => `<img loading="lazy" src="${esc(s)}" alt="${esc(p.title)}" onerror="this.remove()">`),

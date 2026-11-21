@@ -9,6 +9,7 @@
      Local MP4 : "assets/videos/project-11.mp4"
    "link"     : (optional) "Watch on YouTube" button ke liye alag link
    "featured" : true = full-width bada card
+   "channel"  : "SDMotion Studio" (showreel channel) ya "Storyverse SD" (my channel)
    "thumbnail": khaali ho to YouTube/Drive ka thumbnail apne aap aata hai
 
    Naya project add karna ho to neeche wala koi block copy karke id badlo.
@@ -17,6 +18,7 @@
 window.PROJECTS = [
   {
     id: 1,
+    channel: "SDMotion Studio",
     featured: true,
     title: "Marvel Inspired Cinematic Intro",
     category: "Motion & VFX",
@@ -31,6 +33,7 @@ window.PROJECTS = [
   },
   {
     id: 2,
+    channel: "Storyverse SD",
     title: "Ramayan — An Epic AI Short Film",
     category: "AI Film",
     year: "2026",
@@ -43,6 +46,7 @@ window.PROJECTS = [
   },
   {
     id: 3,
+    channel: "SDMotion Studio",
     title: "Dr Doom × Shiva Ji Cinematic Intro",
     category: "Motion & VFX",
     year: "2026",
@@ -55,6 +59,7 @@ window.PROJECTS = [
   },
   {
     id: 4,
+    channel: "SDMotion Studio",
     title: "Movie Title Animation",
     category: "Motion & VFX",
     year: "2026",
@@ -67,6 +72,7 @@ window.PROJECTS = [
   },
   {
     id: 5,
+    channel: "Storyverse SD",
     title: "Why Yahoo Rejected Google",
     category: "Explainer",
     year: "2026",
@@ -79,6 +85,7 @@ window.PROJECTS = [
   },
   {
     id: 6,
+    channel: "Storyverse SD",
     title: "BRICS Summit 2026: India's Gains",
     category: "Explainer",
     year: "2026",
@@ -91,6 +98,7 @@ window.PROJECTS = [
   },
   {
     id: 7,
+    channel: "Storyverse SD",
     title: "Nepal Flood: Why No Warning?",
     category: "Explainer",
     year: "2026",
@@ -103,6 +111,7 @@ window.PROJECTS = [
   },
   {
     id: 8,
+    channel: "Storyverse SD",
     title: "Asian Games: India's 85 Medals Explained",
     category: "Explainer",
     year: "2026",
@@ -115,6 +124,7 @@ window.PROJECTS = [
   },
   {
     id: 9,
+    channel: "Storyverse SD",
     title: "भारत और Asian Games | इतिहास",
     category: "Explainer",
     year: "2026",
@@ -127,6 +137,7 @@ window.PROJECTS = [
   },
   {
     id: 10,
+    channel: "Storyverse SD",
     title: "Happy Ganesh Chaturthi",
     category: "Social",
     year: "2026",
