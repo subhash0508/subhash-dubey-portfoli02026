@@ -38,14 +38,15 @@
 window.PROJECTS = [
   {
   id: 1,
-  title: "Marvel Cinematic Intro",
+  title: "Marvel Inspired Cinematic Intro",
   category: "Motion Graphics",
   year: "2026",
-  role: "Motion Graphics Designer · Video Editor",
+  role: "Motion Graphics · VFX · Title Design",
 
   thumbnail: "assets/images/project-01.webp",
 
-  video: "assets/videos/project-01-web.mp4",   // compressed 720p (2.9 MB). Original: project-01.mp4
+  video: "assets/videos/project-01-web.mp4",
+  link: "https://www.youtube.com/watch?v=_jRg7JIg3BQ",   // "Watch on YouTube" button   // compressed 720p (2.9 MB). Original: project-01.mp4
 
   gallery: [],
 
@@ -63,43 +64,31 @@ window.PROJECTS = [
 },
   {
     id: 2,
-    title: "[Project Title — Video Editing]",
-    category: "Video Editing",
+    title: "Dr Doom × Shiva Ji Cinematic Intro",
+    category: "VFX & AI Motion",
     year: "2026",
-    role: "[Your role on this project]",
+    role: "Motion Graphics · VFX · AI-assisted",
     thumbnail: "assets/images/project-02.webp",
-    video: "assets/videos/project-02.mp4",
-    gallery: [
-      "assets/images/project-02-01.webp",
-      "assets/images/project-02-02.webp",
-      "assets/images/project-02-03.webp"
-    ],
-    additionalVideos: [
-      "assets/videos/project-02-02.mp4"
-    ],
-    tools: ["Adobe Premiere Pro", "Adobe After Effects", "Adobe Photoshop"],
-    description: "[Placeholder — add a description of this video editing project.]",
-    creativeApproach: "[Placeholder — describe your creative approach for this project.]"
+    video: "https://www.youtube.com/watch?v=u1zRL20J79I",
+    gallery: [],
+    additionalVideos: [],
+    tools: ["After Effects", "Photoshop", "AI tools"],
+    description: "An original fan-made cinematic animation and VFX experiment blending superhero visuals with Indian mythology — Dr. Doom-inspired visuals meet Shiva Ji-inspired storytelling.",
+    creativeApproach: "Built with motion graphics, VFX, cinematic lighting, typography and AI-assisted creative workflows to create a powerful, mythic visual experience."
   },
   {
     id: 3,
-    title: "[Project Title — News Explainer]",
-    category: "News Explainer",
-    year: "2025",
-    role: "[Your role on this project]",
+    title: "Movie Title Animation",
+    category: "Title Design",
+    year: "2026",
+    role: "Motion Graphics · Typography · VFX",
     thumbnail: "assets/images/project-03.webp",
-    video: "assets/videos/project-03.mp4",
-    gallery: [
-      "assets/images/project-03-01.webp",
-      "assets/images/project-03-02.webp"
-    ],
-    additionalVideos: [
-      "assets/videos/project-03-02.mp4",
-      "assets/videos/project-03-03.mp4"
-    ],
-    tools: ["Adobe After Effects", "Adobe Premiere Pro", "VizRT"],
-    description: "[Placeholder — add a description of this news explainer project.]",
-    creativeApproach: "[Placeholder — describe your creative approach for this project.]"
+    video: "https://www.youtube.com/watch?v=ogAMplUs_Uo",
+    gallery: [],
+    additionalVideos: [],
+    tools: ["After Effects", "Photoshop"],
+    description: "A cinematic movie title reveal for Visual Scape Production — dynamic typography, smooth transitions and dramatic visual effects.",
+    creativeApproach: "Focused on a powerful title reveal: textured metallic type, space atmosphere, light and particle effects, timed for a big-screen feel."
   },
   {
     id: 4,

@@ -186,9 +186,9 @@
     mm.innerHTML = mv ? embedHTML(mv, thumbOf(p)) : `<img src="${esc(thumbOf(p))}" alt="${esc(p.title)}">`;
     const ml = $("#modalLink");
     if (ml) {
-      const show = mv && mv.type !== "file";
-      ml.hidden = !show;
-      if (show) { ml.href = mv.link; ml.innerHTML = `Watch on ${esc(mv.site)} <span>↗</span>`; }
+      const lv = p.link ? parseVideo(p.link) : (mv && mv.type !== "file" ? mv : null);
+      ml.hidden = !lv;
+      if (lv) { const site = /youtu/.test(lv.link) ? "YouTube" : lv.site; ml.href = lv.link; ml.innerHTML = `Watch on ${esc(site)} <span>↗</span>`; }
     }
     $("#modalGallery").innerHTML = [
       ...(p.gallery || []).filter(Boolean).map(s => `<img loading="lazy" src="${esc(s)}" alt="${esc(p.title)}" onerror="this.remove()">`),

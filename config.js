@@ -6,8 +6,9 @@ window.SITE_CONFIG = {
   behance: "https://www.behance.net/subhashdubey",
   instagram: "https://www.instagram.com/vsproduction01",
   youtube: "https://www.youtube.com/@subhashdubey-01",
+  studio: "https://www.youtube.com/@sdmotionstudio-p8s",   // SDMotion Studio
   resume: "assets/Subhash-Dubey-Resume.pdf",
   // Showreel: MP4 path ya YouTube video/channel, Drive, Vimeo link. Khaali = section hide
-  showreel: "https://www.youtube.com/@subhashdubey-01",
-  showreelPoster: "assets/images/project-01.webp"
+  showreel: "https://www.youtube.com/@sdmotionstudio-p8s",
+  showreelPoster: "assets/images/project-02.webp"
 };

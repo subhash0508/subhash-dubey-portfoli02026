@@ -577,3 +577,6 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: v
 .award-main .award-img { flex: none; aspect-ratio: 4 / 3; }
 .award-main .award-img img { object-fit: cover; background: none; }
 .award-main .award-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+
+.socials { grid-template-columns: repeat(3, 1fr); }
+@media (max-width: 600px) { .socials { grid-template-columns: 1fr 1fr; } }
