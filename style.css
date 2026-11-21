@@ -584,3 +584,4 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: v
 .kicker-hot { color: #0b0b0c; background: var(--accent); padding: 4px 10px; border-radius: 999px; font-weight: 600; font-size: 12.5px; letter-spacing: .02em; margin-right: 0; }
 @media (max-width: 600px) { .kicker { flex-wrap: wrap; border-radius: 18px; } }
 .kicker { gap: 8px; }
+.filter-btn sup { opacity: .9; }
