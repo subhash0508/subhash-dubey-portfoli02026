@@ -1,6 +1,6 @@
 window.SITE_CONFIG = {
   name: "Subhash Dubey",
-  email: "subhashdubey728@yahoo.com",
+  email: "subhashdubeyrewa@gmail.com",
   phone: "+91 89622 83817",
   linkedin: "https://www.linkedin.com/in/subhash-dubey-4158206a/",
   behance: "https://www.behance.net/subhashdubey",
