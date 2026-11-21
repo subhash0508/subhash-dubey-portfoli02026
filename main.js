@@ -1,166 +1,265 @@
 (() => {
   "use strict";
-  document.documentElement.classList.add("js-ready");
-  document.querySelectorAll(".reveal").forEach(el => el.classList.add("visible"));
+  const root = document.documentElement;
+  root.classList.add("js");
+
   const cfg = window.SITE_CONFIG || {};
-  const projects = Array.isArray(window.PROJECTS) ? window.PROJECTS : [];
-  const $ = (s, root=document) => root.querySelector(s);
-  const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+  const $ = (s, el = document) => el.querySelector(s);
+  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+  const esc = v => String(v ?? "").replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[m]));
+  const pad = n => String(n).padStart(2, "0");
+  const finePointer = matchMedia("(pointer: fine)").matches;
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let io, idx = 0, lastFocus = null;
 
-  // Config links
-  const email = $("#emailLink");
-  const behance = $("#behanceLink");
-  const linkedin = $("#linkedinLink");
-  const resume = $("#resumeBtn");
-  if (email) email.href = cfg.email && !cfg.email.includes("example.com") ? `mailto:${cfg.email}` : "#contact";
-  if (behance) behance.href = cfg.behance || "#";
-  if (linkedin) linkedin.href = cfg.linkedin && cfg.linkedin !== "YOUR_LINKEDIN_URL" ? cfg.linkedin : "#";
-  if (resume) {
-    resume.href = cfg.resume || "#";
-    if (!cfg.resume || cfg.resume.endsWith("Resume.pdf") === false) resume.setAttribute("download","");
-    resume.addEventListener("click", e => {
-      if (!cfg.resume || cfg.resume === "assets/Subhash-Dubey-Resume.pdf") {
-        // Allow the browser to try the path; README explains how to activate it.
-      }
-    });
-  }
+  // Only show projects that have real content (placeholder titles start with "[")
+  const allProjects = Array.isArray(window.PROJECTS) ? window.PROJECTS : [];
+  const projects = allProjects.filter(p => p && p.title && !String(p.title).trim().startsWith("[") && p.hidden !== true);
 
-  // Showreel
-  const showreelMount = $("#showreelMount");
-  if (showreelMount) {
-    if (cfg.showreel) {
-      showreelMount.innerHTML = `<video class="showreel-video" controls playsinline preload="metadata" poster="${cfg.showreelPoster || ""}"><source src="${cfg.showreel}" type="video/mp4"></video>`;
-    } else {
-      showreelMount.innerHTML = `<div class="showreel-placeholder"><strong>SHOWREEL<span style="color:#ff6a2a">.</span></strong><p>ADD YOUR SHOWREEL IN config.js</p><a class="btn btn-primary" href="#work">EXPLORE SELECTED WORK ↘</a></div>`;
+  requestAnimationFrame(() => setTimeout(() => root.classList.add("loaded"), 80));
+
+  /* ---------------- Config-driven links ---------------- */
+  $$('a[href$="Subhash-Dubey-Resume.pdf"]').forEach(a => { if (cfg.resume) a.href = cfg.resume; });
+
+  /* ---------------- Showreel ---------------- */
+  const reel = $("#showreelMount");
+  if (reel) {
+    // No showreel set in config.js → hide the section (featured project already leads the Work grid)
+    const src = cfg.showreel;
+    const poster = cfg.showreelPoster || "";
+    if (!src) reel.closest("section").hidden = true;
+    if (src) {
+      const title = "Showreel " + new Date().getFullYear();
+      const sub = "Motion · Video · Design · AI";
+      reel.innerHTML = `
+        <video playsinline preload="none" poster="${esc(poster)}" src="${esc(src)}"></video>
+        <div class="reel-cover">
+          <div class="reel-meta"><small>${esc(sub)}</small><h3>${esc(title)}</h3></div>
+          <button class="play-btn" aria-label="Play video">▶</button>
+        </div>`;
+      const v = $("video", reel);
+      const start = () => { reel.classList.add("playing"); v.controls = true; v.play().catch(() => {}); };
+      reel.addEventListener("click", e => { if (!reel.classList.contains("playing")) { e.preventDefault(); start(); } });
+      v.addEventListener("ended", () => { reel.classList.remove("playing"); v.controls = false; });
     }
   }
 
-  // Filters
+  /* ---------------- Work grid ---------------- */
+  const grid = $("#projectGrid");
   const filters = $("#filters");
-  const categories = ["ALL", ...new Set(projects.map(p => p.category).filter(Boolean))];
-  let activeCategory = "ALL";
-  let filtered = projects.slice();
-  if (filters) {
-    filters.innerHTML = categories.map((c,i) => `<button class="filter-btn ${i===0?"active":""}" data-filter="${escapeAttr(c)}" role="tab">${escapeHtml(c)}</button>`).join("");
-    filters.addEventListener("click", e => {
-      const btn = e.target.closest(".filter-btn");
-      if (!btn) return;
-      activeCategory = btn.dataset.filter;
-      $$(".filter-btn", filters).forEach(b => b.classList.toggle("active", b === btn));
-      filtered = activeCategory === "ALL" ? projects.slice() : projects.filter(p => p.category === activeCategory);
-      renderProjects(filtered);
-    });
-  }
+  let visible = projects.slice();
 
-  function mediaBlock(p) {
-    const poster = p.thumbnail ? `<img loading="lazy" src="${escapeAttr(p.thumbnail)}" alt="${escapeAttr(p.title || "Project")}" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">` : "";
-    const fallback = `<div class="media-fallback" style="${poster ? "display:none" : ""}">SUBHASH DUBEY / PROJECT</div>`;
-    const video = p.video ? `<video class="project-preview" muted loop playsinline preload="none" poster="${escapeAttr(p.thumbnail || "")}" data-src="${escapeAttr(p.video)}" aria-hidden="true"></video>` : "";
-    return `${poster}${fallback}${video}`;
-  }
-
-  function renderProjects(list) {
-    const grid = $("#projectGrid");
-    if (!grid) return;
-    grid.innerHTML = list.map((p, i) => `
-      <article class="project-card reveal" data-id="${p.id}" tabindex="0" aria-label="Open ${escapeAttr(p.title || "project")}">
-        <div class="project-media">${mediaBlock(p)}
-          <div class="project-overlay">
-            <div><div class="project-num">${String(p.id).padStart(2,"0")}</div><div class="project-title">${escapeHtml(p.title || "Project")}</div><div class="project-cat">${escapeHtml(p.category || "")}</div></div>
-            <div class="view-pill">VIEW ↗</div>
-          </div>
+  function card(p, i, list) {
+    const feature = i === 0 && list.length % 2 === 1;
+    const thumb = p.thumbnail
+      ? `<img loading="lazy" src="${esc(p.thumbnail)}" alt="${esc(p.title)}" onerror="this.remove()">`
+      : "";
+    const preview = p.previewVideo || p.video;
+    const vid = preview ? `<video muted loop playsinline preload="none" data-src="${esc(preview)}" aria-hidden="true"></video>` : "";
+    return `
+      <article class="project-card reveal${feature ? " feature" : ""}" data-id="${p.id}" tabindex="0" role="button" aria-label="Open project: ${esc(p.title)}" data-cursor="View">
+        <div class="project-media">
+          <div class="media-fallback">SUBHASH DUBEY / ${pad(p.id)}</div>
+          ${thumb}${vid}
+          <span class="project-badge${p.video ? " play" : ""}">${esc(p.category || "Project")}</span>
+          <span class="project-view" aria-hidden="true">↗</span>
         </div>
-      </article>`).join("");
-    $$(".project-card", grid).forEach(card => {
-      card.addEventListener("click", () => openProject(Number(card.dataset.id)));
-      card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openProject(Number(card.dataset.id)); }});
-      const v = $(".project-preview", card);
-      if (v) {
-        card.addEventListener("mouseenter", () => {
-          if (!v.src && v.dataset.src) { v.src = v.dataset.src; v.load(); }
-          v.play().catch(()=>{});
+        <div class="project-info">
+          <div><h3>${esc(p.title)}</h3><p>${esc(p.role || "")}</p></div>
+          <span class="yr">${esc(p.year || "")}</span>
+        </div>
+      </article>`;
+  }
+
+  function extraCards(list) {
+    const rest = list.length % 2 === 1 ? list.length - 1 : list.length; // cards after the full-width feature
+    const behance = cfg.behance || "https://www.behance.net/subhashdubey";
+    const cards = [`
+      <a class="more-card reveal" href="${esc(behance)}" target="_blank" rel="noopener" data-cursor="Behance">
+        <span class="label"><span>+</span> More work</span>
+        <div><h3>See the full<br>archive on <em>Behance.</em></h3></div>
+        <span class="arrow">↗</span>
+      </a>`];
+    // keep the grid balanced on wide screens
+    if (rest % 2 === 0) cards.push(`
+      <a class="more-card solid reveal" href="#contact" data-cursor="Talk">
+        <span class="label"><span>→</span> Your project</span>
+        <div><h3>Got a story<br>that needs to <em>move?</em></h3><p>Let's build it together.</p></div>
+        <span class="arrow">↗</span>
+      </a>`);
+    return cards.join("");
+  }
+
+  function render(list) {
+    if (!grid) return;
+    grid.innerHTML = list.map((p, i) => card(p, i, list)).join("") + extraCards(list);
+    $$(".project-card", grid).forEach(el => {
+      const id = Number(el.dataset.id);
+      el.addEventListener("click", () => openProject(id));
+      el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openProject(id); } });
+      const v = $("video", el);
+      if (v && finePointer) {
+        el.addEventListener("mouseenter", () => {
+          if (!v.src) { v.src = v.dataset.src; v.addEventListener("canplay", () => v.classList.add("ready"), { once: true }); }
+          v.play().catch(() => {});
         });
-        card.addEventListener("mouseleave", () => v.pause());
+        el.addEventListener("mouseleave", () => v.pause());
       }
     });
     observeReveals();
+    bindCursorTargets();
   }
 
-  renderProjects(projects);
+  if (filters) {
+    const cats = [...new Set(projects.map(p => p.category).filter(Boolean))];
+    if (cats.length > 1) {
+      filters.innerHTML = ["All", ...cats].map((c, i) => {
+        const n = i === 0 ? projects.length : projects.filter(p => p.category === c).length;
+        return `<button class="filter-btn${i === 0 ? " active" : ""}" data-filter="${esc(c)}" role="tab" aria-selected="${i === 0}">${esc(c)}<sup>${n}</sup></button>`;
+      }).join("");
+      filters.addEventListener("click", e => {
+        const b = e.target.closest(".filter-btn"); if (!b) return;
+        $$(".filter-btn", filters).forEach(x => { x.classList.toggle("active", x === b); x.setAttribute("aria-selected", String(x === b)); });
+        visible = b.dataset.filter === "All" ? projects.slice() : projects.filter(p => p.category === b.dataset.filter);
+        render(visible);
+      });
+    }
+  }
 
-  // Modal
-  const modal = $("#projectModal"), modalMedia = $("#modalMedia"), modalTitle = $("#modalTitle"),
-        modalCategory = $("#modalCategory"), modalDescription = $("#modalDescription"),
-        modalApproach = $("#modalApproach"), modalTools = $("#modalTools"),
-        modalGallery = $("#modalGallery"), modalCount = $("#modalCount");
-  let currentIndex = 0;
+  /* ---------------- Modal ---------------- */
+  const modal = $("#projectModal");
   function openProject(id) {
-    currentIndex = Math.max(0, projects.findIndex(p => p.id === id));
-    const p = projects[currentIndex];
-    if (!p || !modal) return;
-    modalCategory.textContent = `${String(p.id).padStart(2,"0")} / ${p.category || ""} / ${p.year || ""}`;
-    modalTitle.textContent = p.title || "Project";
-    modalDescription.textContent = p.description || "";
-    modalApproach.textContent = p.creativeApproach || "";
-    modalTools.innerHTML = (p.tools || []).map(t => `<span>${escapeHtml(t)}</span>`).join("");
-    modalCount.textContent = `${String(currentIndex+1).padStart(2,"0")} / ${String(projects.length).padStart(2,"0")}`;
-    modalMedia.innerHTML = p.video
-      ? `<video controls autoplay playsinline preload="metadata" poster="${escapeAttr(p.thumbnail || "")}"><source src="${escapeAttr(p.video)}" type="video/mp4"></video>`
-      : `<img src="${escapeAttr(p.thumbnail || "")}" alt="${escapeAttr(p.title || "")}">`;
-    const gallery = (p.gallery || []).filter(Boolean);
-    const vids = (p.additionalVideos || []).filter(Boolean);
-    modalGallery.innerHTML = [
-      ...gallery.map(src => `<img loading="lazy" src="${escapeAttr(src)}" alt="${escapeAttr(p.title || "Project image")}">`),
-      ...vids.map(src => `<video controls playsinline preload="metadata"><source src="${escapeAttr(src)}" type="video/mp4"></video>`)
+    idx = Math.max(0, visible.findIndex(p => p.id === id));
+    const p = visible[idx]; if (!p || !modal) return;
+    lastFocus = document.activeElement;
+    $("#modalCategory").innerHTML = `<span>${pad(p.id)}</span> ${esc(p.category || "")} · ${esc(p.year || "")}`;
+    $("#modalTitle").textContent = p.title;
+    $("#modalRole").textContent = p.role || "";
+    $("#modalDescription").textContent = p.description || "";
+    $("#modalApproach").textContent = p.creativeApproach || "";
+    $(".modal-sub").style.display = p.creativeApproach ? "" : "none";
+    $("#modalTools").innerHTML = (p.tools || []).map(t => `<span>${esc(t)}</span>`).join("");
+    $("#modalCount").textContent = `${pad(idx + 1)} / ${pad(visible.length)}`;
+    $("#prevProject").disabled = $("#nextProject").disabled = visible.length < 2;
+    $("#modalMedia").innerHTML = p.video
+      ? `<video controls autoplay playsinline preload="metadata" poster="${esc(p.thumbnail || "")}" src="${esc(p.video)}"></video>`
+      : `<img src="${esc(p.thumbnail || "")}" alt="${esc(p.title)}">`;
+    $("#modalGallery").innerHTML = [
+      ...(p.gallery || []).filter(Boolean).map(s => `<img loading="lazy" src="${esc(s)}" alt="${esc(p.title)}" onerror="this.remove()">`),
+      ...(p.additionalVideos || []).filter(Boolean).map(s => `<video controls playsinline preload="metadata" src="${esc(s)}" onerror="this.remove()"></video>`)
     ].join("");
-    modal.classList.add("open"); modal.setAttribute("aria-hidden","false"); document.body.style.overflow="hidden";
-    $(".modal-close")?.focus();
+    modal.classList.add("open"); modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    $(".modal-panel", modal).scrollTop = 0;
+    $(".modal-close", modal).focus();
   }
-  function closeModal(){ if(!modal)return; modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); document.body.style.overflow=""; modalMedia.innerHTML=""; modalGallery.innerHTML=""; }
-  function moveProject(delta){ currentIndex=(currentIndex+delta+projects.length)%projects.length; openProject(projects[currentIndex].id); }
-  $(".modal-close")?.addEventListener("click",closeModal);
-  $(".modal-backdrop")?.addEventListener("click",closeModal);
-  $("#prevProject")?.addEventListener("click",()=>moveProject(-1));
-  $("#nextProject")?.addEventListener("click",()=>moveProject(1));
-  document.addEventListener("keydown",e=>{if(!modal?.classList.contains("open"))return;if(e.key==="Escape")closeModal();if(e.key==="ArrowLeft")moveProject(-1);if(e.key==="ArrowRight")moveProject(1)});
+  function closeModal() {
+    if (!modal?.classList.contains("open")) return;
+    modal.classList.remove("open"); modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    setTimeout(() => { $("#modalMedia").innerHTML = ""; $("#modalGallery").innerHTML = ""; }, 300);
+    lastFocus?.focus?.();
+  }
+  const move = d => { if (visible.length < 2) return; idx = (idx + d + visible.length) % visible.length; openProject(visible[idx].id); };
+  $(".modal-close")?.addEventListener("click", closeModal);
+  $(".modal-backdrop")?.addEventListener("click", closeModal);
+  $("#prevProject")?.addEventListener("click", () => move(-1));
+  $("#nextProject")?.addEventListener("click", () => move(1));
+  document.addEventListener("keydown", e => {
+    if (!modal?.classList.contains("open")) return;
+    if (e.key === "Escape") closeModal();
+    if (e.key === "ArrowLeft") move(-1);
+    if (e.key === "ArrowRight") move(1);
+  });
 
-  // Mobile menu
-  const menuBtn=$(".menu-btn"), mobileMenu=$(".mobile-menu");
-  menuBtn?.addEventListener("click",()=>{const open=mobileMenu.classList.toggle("open");menuBtn.setAttribute("aria-expanded",String(open));});
-  $$(".mobile-menu a").forEach(a=>a.addEventListener("click",()=>mobileMenu.classList.remove("open")));
+  /* ---------------- Mobile menu ---------------- */
+  const menuBtn = $(".menu-btn"), menu = $(".mobile-menu");
+  const setMenu = open => {
+    menu.classList.toggle("open", open);
+    menuBtn.setAttribute("aria-expanded", String(open));
+    menu.setAttribute("aria-hidden", String(!open));
+    document.body.style.overflow = open ? "hidden" : "";
+  };
+  menuBtn?.addEventListener("click", () => setMenu(!menu.classList.contains("open")));
+  $$("a", menu).forEach(a => a.addEventListener("click", () => setMenu(false)));
 
-  // Scroll reveals
-  let observer;
-  function observeReveals(){
-    if(!("IntersectionObserver" in window)){ $$(".reveal").forEach(x=>x.classList.add("visible")); return; }
-    if(!observer){ observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");observer.unobserve(e.target)}}),{threshold:.12}); }
-    $$(".reveal").forEach(el=>{if(!el.classList.contains("visible"))observer.observe(el)});
+  /* ---------------- Reveal on scroll ---------------- */
+  function observeReveals() {
+    if (!("IntersectionObserver" in window) || reduceMotion) { $$(".reveal").forEach(x => x.classList.add("visible")); return; }
+    io = io || new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); } }), { threshold: .12, rootMargin: "0px 0px -40px 0px" });
+    $$(".reveal:not(.visible)").forEach(el => io.observe(el));
   }
   observeReveals();
 
-  // Pause/play previews efficiently
-  if("IntersectionObserver" in window){
-    const videoObserver=new IntersectionObserver(entries=>entries.forEach(e=>{const v=e.target;if(!e.isIntersecting)v.pause()}),{threshold:.1});
-    $$(".project-preview").forEach(v=>videoObserver.observe(v));
+  /* ---------------- Counters ---------------- */
+  if ("IntersectionObserver" in window && !reduceMotion) {
+    const co = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target, to = Number(el.dataset.count), t0 = performance.now(), dur = 1400;
+      const tick = t => { const k = Math.min(1, (t - t0) / dur); el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3))); if (k < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick); co.unobserve(el);
+    }), { threshold: .6 });
+    $$("[data-count]").forEach(el => { el.textContent = "0"; co.observe(el); });
   }
 
-  // Cursor
-  if(matchMedia("(pointer:fine)").matches){
-    const dot=$(".cursor-dot"), ring=$(".cursor-ring");
-    let mx=innerWidth/2,my=innerHeight/2,rx=mx,ry=my;
-    addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY});
-    function cursorLoop(){rx+=(mx-rx)*.18;ry+=(my-ry)*.18;dot.style.left=mx+"px";dot.style.top=my+"px";ring.style.left=rx+"px";ring.style.top=ry+"px";requestAnimationFrame(cursorLoop)}
-    cursorLoop();
-    document.addEventListener("mouseover",e=>{const t=e.target.closest("[data-cursor],a,button,.project-card");if(t){ring.style.width="48px";ring.style.height="48px";ring.style.borderColor="#ff6a2a"}});
-    document.addEventListener("mouseout",e=>{if(e.target.closest("[data-cursor],a,button,.project-card")){ring.style.width="28px";ring.style.height="28px";ring.style.borderColor="rgba(255,255,255,.6)"}});
+  /* ---------------- Nav: hide on scroll down, active link, progress ---------------- */
+  const navWrap = $(".nav-wrap"), bar = $(".progress span");
+  let lastY = scrollY;
+  addEventListener("scroll", () => {
+    const y = scrollY, h = document.documentElement.scrollHeight - innerHeight;
+    if (bar) bar.style.transform = `scaleX(${h > 0 ? y / h : 0})`;
+    if (!menu?.classList.contains("open")) navWrap.classList.toggle("hide", y > lastY && y > 400);
+    lastY = y;
+  }, { passive: true });
+  if ("IntersectionObserver" in window) {
+    const links = $$(".nav-links a");
+    const so = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) links.forEach(a => a.classList.toggle("active", a.getAttribute("href") === "#" + e.target.id));
+    }), { rootMargin: "-45% 0px -50% 0px" });
+    ["work", "about", "services", "experience", "contact"].forEach(id => { const s = document.getElementById(id); if (s) so.observe(s); });
   }
 
-  // Magnetic buttons
-  if(matchMedia("(pointer:fine)").matches){
-    $$(".magnetic").forEach(el=>el.addEventListener("mousemove",e=>{const r=el.getBoundingClientRect();const x=(e.clientX-r.left-r.width/2)*.12,y=(e.clientY-r.top-r.height/2)*.12;el.style.transform=`translate(${x}px,${y}px)`}));
-    $$(".magnetic").forEach(el=>el.addEventListener("mouseleave",()=>el.style.transform=""));
+  /* ---------------- Copy email ---------------- */
+  $$("[data-copy]").forEach(btn => btn.addEventListener("click", async () => {
+    const text = btn.dataset.copy, state = $(".copy-state", btn);
+    try { await navigator.clipboard.writeText(text); btn.classList.add("copied"); if (state) state.textContent = "Copied ✓"; }
+    catch { location.href = "mailto:" + text; return; }
+    setTimeout(() => { btn.classList.remove("copied"); if (state) state.textContent = "Copy"; }, 2000);
+  }));
+
+  /* ---------------- Footer: year + local time ---------------- */
+  const yr = $("#year"); if (yr) yr.textContent = new Date().getFullYear();
+  const lt = $("#localTime");
+  if (lt) {
+    const upd = () => { try { lt.textContent = "Bhopal · " + new Date().toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit" }) + " IST"; } catch {} };
+    upd(); setInterval(upd, 30000);
   }
 
-  function escapeHtml(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
-  function escapeAttr(v){return escapeHtml(v)}
+  /* ---------------- Custom cursor ---------------- */
+  const cur = $(".cursor"), curLabel = $(".cursor-label");
+  function bindCursorTargets() {
+    if (!finePointer || !cur) return;
+    $$("[data-cursor]:not([data-cb]), a:not([data-cb]), button:not([data-cb]), summary:not([data-cb])").forEach(el => {
+      el.dataset.cb = "1";
+      el.addEventListener("mouseenter", () => {
+        if (el.dataset.cursor) { curLabel.textContent = el.dataset.cursor; cur.classList.add("big"); }
+        else cur.classList.add("link");
+      });
+      el.addEventListener("mouseleave", () => cur.classList.remove("big", "link"));
+    });
+  }
+  if (finePointer && cur && !reduceMotion) {
+    let mx = -100, my = -100, x = mx, y = my;
+    addEventListener("mousemove", e => { mx = e.clientX; my = e.clientY; cur.classList.add("on"); }, { passive: true });
+    document.addEventListener("mouseleave", () => cur.classList.remove("on"));
+    (function loop() { x += (mx - x) * .2; y += (my - y) * .2; cur.style.transform = `translate3d(${x}px, ${y}px, 0)`; requestAnimationFrame(loop); })();
+    bindCursorTargets();
+
+    // magnetic buttons
+    $$(".btn, .nav-cta, .play-btn, .spin-badge").forEach(el => {
+      el.addEventListener("mousemove", e => { const r = el.getBoundingClientRect(); el.style.translate = `${(e.clientX - r.left - r.width / 2) * .15}px ${(e.clientY - r.top - r.height / 2) * .2}px`; });
+      el.addEventListener("mouseleave", () => { el.style.translate = ""; });
+    });
+  }
+  render(visible);
 })();

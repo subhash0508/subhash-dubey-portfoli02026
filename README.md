@@ -100,3 +100,19 @@ The portfolio now includes the supplied Subhash Dubey resume PDF at:
 `assets/Subhash-Dubey-Resume.pdf`
 
 The website Resume and Contact sections were populated from the supplied resume, including education, experience, skills, software, languages and contact/portfolio details. The source resume is one page and contains the career information shown in the site.
+
+
+## 2026 redesign — kaise update karein
+
+- Sirf asli projects dikhte hain: `projects.js` me jis project ka `title` `[` se shuru hota hai (placeholder), wo website par **hide** rehta hai. Title, thumbnail aur video bhar do — card apne aap dikhne lagega.
+- Pehla project hamesha full-width "featured" card banta hai.
+- Showreel section tabhi dikhta hai jab `config.js` me `showreel` set ho.
+- Images **.webp** (1600px chaudi, ~200 KB) aur videos **720p H.264 MP4** (5 MB se kam) rakho — site fast chalegi.
+
+### Zaroori files (naming)
+
+| File | Kahan | Size |
+|---|---|---|
+| `project-02.webp` … `project-20.webp` | `assets/images/` | 1600×1000 (16:10), webp |
+| `project-02.mp4` … | `assets/videos/` | 720p, <5 MB, 5–20 sec loop |
+| `showreel.mp4` + `showreel-poster.webp` | `assets/videos/`, `assets/images/` | 1080p, 60–90 sec |

@@ -9,6 +9,6 @@ window.SITE_CONFIG = {
   behance: "https://www.behance.net/subhashdubey",
   instagram: "https://www.instagram.com/vsproduction01",
   resume: "assets/Subhash-Dubey-Resume.pdf",
-  showreel: "",
+  showreel: "",          // e.g. "assets/videos/showreel.mp4" — empty = featured project is shown
   showreelPoster: ""
 };

@@ -32,7 +32,7 @@ window.PROJECTS = [
 
   thumbnail: "assets/images/project-01.webp",
 
-  video: "assets/videos/project-01.mp4",
+  video: "assets/videos/project-01-web.mp4",   // compressed 720p (2.9 MB). Original: project-01.mp4
 
   gallery: [],
 

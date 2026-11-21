@@ -3,361 +3,395 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0a0a0a">
-  <meta name="description" content="Portfolio of Subhash Dubey — Senior Motion Graphics Designer, Video Editor, Graphic Designer and AI Creative Expert with 6+ years of experience.">
-  <meta property="og:title" content="Subhash Dubey — Motion / Video / Design / AI">
-  <meta property="og:description" content="Senior Motion Graphics Designer, Video Editor, Graphic Designer and AI Creative Expert.">
+  <meta name="theme-color" content="#0b0b0c">
+  <meta name="description" content="Subhash Dubey — Senior Motion Graphics Designer, Video Editor, Graphic Designer and AI Creative with 6+ years of experience. Based in Bhopal, India.">
+  <meta property="og:title" content="Subhash Dubey — Motion · Video · Design · AI">
+  <meta property="og:description" content="Senior Motion Graphics Designer, Video Editor, Graphic Designer and AI Creative.">
   <meta property="og:type" content="website">
-  <title>Subhash Dubey — Motion / Video / Design / AI</title>
+  <meta property="og:image" content="assets/images/subhash-profile.webp">
+  <title>Subhash Dubey — Motion · Video · Design · AI</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ff5b1f'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Arial' font-weight='700' font-size='28' fill='%230b0b0c'%3ESD%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/images/subhash-profile.webp">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="noise" aria-hidden="true"></div>
-  <div class="cursor cursor-dot" aria-hidden="true"></div>
-  <div class="cursor cursor-ring" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"><span></span></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor-label"></span></div>
 
+  <!-- ============ NAV ============ -->
   <header class="nav-wrap">
-    <nav class="nav container" aria-label="Primary navigation">
-      <a class="brand magnetic" href="#home" data-cursor="OPEN">SD<span>.</span></a>
+    <nav class="nav container" aria-label="Primary">
+      <a class="brand" href="#home" aria-label="Subhash Dubey — home">
+        <span class="brand-mark">SD</span>
+        <span class="brand-name">Subhash Dubey</span>
+      </a>
       <div class="nav-links">
-        <a href="#work">WORK</a>
-        <a href="#about">ABOUT</a>
-        <a href="#experience">EXPERIENCE</a>
-        <a href="#skills">SKILLS</a>
-        <a href="#resume">RESUME</a>
-        <a href="#contact">CONTACT</a>
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
       </div>
-      <a class="nav-cta magnetic" href="#contact" data-cursor="TALK">LET'S TALK <span>↗</span></a>
+      <a class="nav-cta" href="#contact" data-cursor="Say hi"><i class="pulse"></i>Available for work</a>
       <button class="menu-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
     </nav>
-    <div class="mobile-menu">
-      <a href="#work">WORK</a><a href="#about">ABOUT</a><a href="#experience">EXPERIENCE</a>
-      <a href="#skills">SKILLS</a><a href="#resume">RESUME</a><a href="#contact">CONTACT</a>
+    <div class="mobile-menu" aria-hidden="true">
+      <a href="#work"><small>01</small>Work</a>
+      <a href="#about"><small>02</small>About</a>
+      <a href="#services"><small>03</small>Services</a>
+      <a href="#experience"><small>04</small>Experience</a>
+      <a href="#contact"><small>05</small>Contact</a>
     </div>
   </header>
 
   <main>
+    <!-- ============ HERO ============ -->
     <section id="home" class="hero">
-      <div class="hero-orbit orbit-a"></div>
-      <div class="hero-orbit orbit-b"></div>
-      <div class="hero-grid"></div>
+      <div class="hero-bg" aria-hidden="true">
+        <div class="glow glow-a"></div>
+        <div class="glow glow-b"></div>
+        <div class="hero-lines"></div>
+      </div>
+
       <div class="container hero-inner">
         <div class="hero-copy">
-          <p class="eyebrow reveal">SENIOR MOTION GRAPHICS DESIGNER <span>•</span> 6+ YEARS</p>
+          <p class="kicker reveal"><span class="pulse"></span> Senior Motion Graphics Designer · Bhopal, India</p>
           <h1 class="hero-title">
-            <span class="line reveal">SUBHASH</span>
-            <span class="line line-accent reveal">DUBEY<span class="dot">.</span></span>
+            <span class="mask"><span class="reveal-up">Subhash</span></span>
+            <span class="mask"><span class="reveal-up d1">Dubey<em>.</em></span></span>
           </h1>
-          <p class="hero-role reveal">MOTION GRAPHICS <span>/</span> VIDEO EDITOR <span>/</span> GRAPHIC DESIGNER <span>/</span> AI CREATIVE</p>
-          <p class="hero-intro reveal">I turn ideas, stories and information into powerful visual experiences through motion, video, design and AI.</p>
-          <div class="hero-actions reveal">
-            <a class="btn btn-primary magnetic" href="#work" data-cursor="VIEW">VIEW MY WORK <span>↘</span></a>
-            <a class="btn btn-ghost magnetic" href="#resume" data-cursor="RESUME">VIEW RESUME <span>↗</span></a>
+          <p class="hero-intro reveal d2">
+            I turn ideas, stories and information into <em>visuals that move</em> — through motion graphics, video editing, design and AI.
+          </p>
+          <div class="hero-actions reveal d3">
+            <a class="btn btn-primary" href="#work" data-cursor="View">View my work <span class="arr">↘</span></a>
+            <a class="btn btn-ghost" href="assets/Subhash-Dubey-Resume.pdf" target="_blank" rel="noopener" data-cursor="PDF">Download resume <span class="arr">↓</span></a>
           </div>
+          <dl class="hero-stats reveal d4">
+            <div><dt><span data-count="6">6</span>+</dt><dd>Years in motion<br>&amp; video</dd></div>
+            <div><dt><span data-count="18">18</span>%</dt><dd>Production output<br>gain at StudyIQ</dd></div>
+            <div><dt><span data-count="19">19</span></dt><dd>Creative &amp; AI<br>tools in stack</dd></div>
+          </dl>
         </div>
-        <div class="hero-portrait-wrap reveal">
-          <div class="portrait-glow"></div>
-          <div class="portrait-frame">
-            <img src="assets/images/subhash-profile.png" class="hero-portrait" alt="Subhash Dubey — Senior Motion Graphics Designer">
-            <div class="portrait-label"><span>SD / 2026</span><span>BHOPAL · INDIA</span></div>
+
+        <div class="hero-visual reveal d2">
+          <div class="portrait">
+            <div class="portrait-ring" aria-hidden="true"></div>
+            <img src="assets/images/subhash-profile.webp" alt="Portrait of Subhash Dubey" width="1122" height="1402" fetchpriority="high">
+            <div class="portrait-fade" aria-hidden="true"></div>
           </div>
-          <div class="portrait-badge">MOTION<br>VIDEO<br>AI<span>↗</span></div>
+          <div class="chip chip-a"><b>Now</b> Dainik Bhaskar English</div>
+          <div class="chip chip-b"><span class="rec"></span>REC · 00:06:24</div>
+          <a class="spin-badge" href="#work" aria-label="Scroll to work">
+            <svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><text><textPath href="#circ">MOTION • VIDEO • DESIGN • AI • </textPath></text></svg>
+            <span>↓</span>
+          </a>
         </div>
-        <div class="hero-marquee" aria-hidden="true">
-          <div>MOTION&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;VIDEO&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;DESIGN&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;AI&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;VISUAL STORYTELLING&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;</div>
+      </div>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <span>Motion Graphics</span><i>✦</i><span>Video Editing</span><i>✦</i><span>Broadcast Design</span><i>✦</i><span>Graphic Design</span><i>✦</i><span>AI Creative</span><i>✦</i><span>Visual Storytelling</span><i>✦</i>
+          <span>Motion Graphics</span><i>✦</i><span>Video Editing</span><i>✦</i><span>Broadcast Design</span><i>✦</i><span>Graphic Design</span><i>✦</i><span>AI Creative</span><i>✦</i><span>Visual Storytelling</span><i>✦</i>
         </div>
       </div>
     </section>
 
-    <section id="showreel" class="showreel section">
+    <!-- ============ SHOWREEL ============ -->
+    <section id="showreel" class="section showreel">
       <div class="container">
-        <div class="section-top reveal"><span>00 / SHOWREEL</span><span>2026</span></div>
-        <div id="showreelMount" class="showreel-box reveal"></div>
+        <div class="section-head reveal">
+          <p class="label"><span>00</span> Showreel</p>
+          <h2 id="showreelTitle">Watch the <em>reel.</em></h2>
+        </div>
+        <div id="showreelMount" class="reel reveal" data-cursor="Play"></div>
       </div>
     </section>
 
-    <section id="work" class="work section">
+    <!-- ============ WORK ============ -->
+    <section id="work" class="section work">
       <div class="container">
-        <div class="section-heading reveal">
-          <p class="eyebrow">01 / SELECTED WORK</p>
-          <h2>MAKE STORIES<br><em>MOVE.</em></h2>
+        <div class="section-head split-head reveal">
+          <div>
+            <p class="label"><span>01</span> Selected work</p>
+            <h2>Make stories <em>move.</em></h2>
+          </div>
+          <p class="head-note">Motion graphics, edits, explainers and AI-driven visuals. Hover to preview, click to open the full project.</p>
         </div>
         <div id="filters" class="filters reveal" role="tablist" aria-label="Project filters"></div>
-        <div id="projectGrid" class="project-grid">
-      <div class="project-card" style="grid-column:span 12">
-        <div class="project-media" style="display:grid;place-items:center;min-height:360px">
-          <div class="media-fallback">20 PROJECT SLOTS — ADD YOUR MEDIA</div>
-        </div>
-      </div>
-    </div>
+        <div id="projectGrid" class="project-grid"></div>
       </div>
     </section>
 
-    <section class="statement section">
+    <!-- ============ ABOUT ============ -->
+    <section id="about" class="section about">
+      <div class="container about-grid">
+        <div class="reveal">
+          <p class="label"><span>02</span> About</p>
+          <h2>Behind <em>the motion.</em></h2>
+        </div>
+        <div class="about-copy">
+          <p class="lead reveal">I'm Subhash — a Senior Motion Graphics Designer, Video Editor, Graphic Designer and AI Creative with <b>6+ years</b> of turning complex ideas into clear, engaging, visually powerful content.</p>
+          <p class="reveal">Today I lead graphics production at Dainik Bhaskar English — show openers, news explainers, lower thirds, templates, thumbnails and social creatives. Before that I produced educational and current-affairs animation at StudyIQ IAS, and edited for brands and creators as a freelancer.</p>
+          <p class="reveal">My toolkit blends Adobe Creative Suite, 2D/3D, editorial storytelling and AI-assisted production — always with the story first.</p>
+          <div class="about-facts reveal">
+            <div><span>Based in</span><b>Bhopal, MP, India</b></div>
+            <div><span>Languages</span><b>Hindi · English</b></div>
+            <div><span>Focus</span><b>News, brand &amp; social</b></div>
+            <div><span>Status</span><b class="ok">Open to projects</b></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICES ============ -->
+    <section id="services" class="section services">
       <div class="container">
-        <p class="giant-statement reveal">DESIGN THAT<br><span>DOESN'T STAND STILL.</span></p>
-      </div>
-    </section>
-
-    <section id="about" class="about section">
-      <div class="container split">
-        <div class="section-heading reveal"><p class="eyebrow">02 / ABOUT</p><h2>BEHIND<br><em>THE MOTION.</em></h2></div>
-        <div class="about-copy reveal">
-          <p class="lead">I'm Subhash Dubey — a Senior Motion Graphics Designer, Video Editor, Graphic Designer and AI Creative Expert with 6+ years of experience.</p>
-          <p>My work combines motion design, video editing, graphic design, 2D/3D visual development, editorial storytelling and AI-assisted creative production. I focus on turning complex ideas, information and stories into clear, engaging and visually powerful content.</p>
-          <div class="about-tags"><span>MOTION</span><span>VIDEO</span><span>DESIGN</span><span>AI</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="experience" class="experience section">
-      <div class="container">
-        <div class="section-heading reveal"><p class="eyebrow">03 / EXPERIENCE</p><h2>YEARS OF<br><em>MAKING.</em></h2></div>
-        <div class="timeline">
-          <article class="timeline-item reveal">
-            <div class="timeline-year">RECENT</div>
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <p class="company">DAINIK BHASKAR ENGLISH — BHOPAL</p>
-              <h3>Senior Motion Graphics Designer / Graphics Team Lead</h3>
-              <p>Lead graphics production for digital news content; create motion graphics, video edits, news explainers, show openers, lower thirds, transitions, thumbnails, posters, social creatives and reusable templates. Collaborate with editorial and digital teams while exploring AI-assisted production workflows.</p>
-              <div class="tool-row"><span>AFTER EFFECTS</span><span>PREMIERE PRO</span><span>PHOTOSHOP</span><span>ILLUSTRATOR</span></div>
-            </div>
-          </article>
-          <article class="timeline-item reveal">
-            <div class="timeline-year">PREVIOUS</div>
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <p class="company">STUDYIQ IAS + BHARAT MATTER — DELHI</p>
-              <h3>Senior Executive — Animation</h3>
-              <p>Produced educational and current-affairs videos, motion graphics and animation across multiple content categories. Improved creative production workflows and contributed to approximately 18% higher production output through workflow optimization.</p>
-              <div class="tool-row"><span>ANIMATION</span><span>MOTION GRAPHICS</span><span>VIDEO</span></div>
-            </div>
-          </article>
-          <article class="timeline-item reveal">
-            <div class="timeline-year">FREELANCE</div>
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <p class="company">FREELANCE — VIDEO & MOTION</p>
-              <h3>Video Editor & Motion Graphics Designer</h3>
-              <p>Creative work for brands, creators and digital content including video editing, motion graphics, social media videos, promotional content and graphic design.</p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="skills" class="skills section">
-      <div class="container">
-        <div class="section-heading reveal"><p class="eyebrow">04 / EXPERTISE</p><h2>WHAT I<br><em>DO.</em></h2></div>
-        <div class="skill-grid">
-          <article class="skill-card reveal"><span>01</span><h3>MOTION<br>GRAPHICS</h3><p>2D/3D motion, typography, logo animation, lower thirds, transitions, explainers and data visualization.</p></article>
-          <article class="skill-card reveal"><span>02</span><h3>VIDEO<br>EDITING</h3><p>News, YouTube, social media, reels, explainers, promotional videos, storytelling and editing systems.</p></article>
-          <article class="skill-card reveal"><span>03</span><h3>GRAPHIC<br>DESIGN</h3><p>Editorial graphics, thumbnails, posters, social creatives, branding and visual communication.</p></article>
-          <article class="skill-card reveal"><span>04</span><h3>AI<br>CREATIVE</h3><p>AI image/video generation, prompt engineering, AI-assisted design and generative creative workflows.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section class="tools section">
-      <div class="container">
-        <div class="section-top reveal"><span>05 / TOOLS</span><span>CREATIVE STACK</span></div>
-        <div class="tools-cloud reveal">
-          <span>AFTER EFFECTS</span><span>PREMIERE PRO</span><span>PHOTOSHOP</span><span>ILLUSTRATOR</span>
-          <span>BLENDER</span><span>GEOLAYERS</span><span>VIZRT</span><span>CANVA</span><span>3DS MAX</span>
-          <span>CHATGPT</span><span>MIDJOURNEY</span><span>FIREFLY</span><span>RUNWAY</span><span>KLING AI</span>
-          <span>GEMINI</span><span>GOOGLE FLOW</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="ai section">
-      <div class="container ai-box reveal">
-        <div><p class="eyebrow">06 / AI CREATIVE</p><h2>HUMAN<br><em>× AI.</em></h2></div>
-        <div class="ai-copy">
-          <p class="lead">AI is another tool in my creative workflow — not a replacement for creative thinking.</p>
-          <div class="ai-flow"><span>IDEA</span><b>→</b><span>PROMPT</span><b>→</b><span>GENERATE</span><b>→</b><span>DESIGN</span><b>→</b><span>ANIMATE</span><b>→</b><span>EDIT</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="resume" class="resume section">
-      <div class="container">
-        <div class="section-heading reveal">
-          <p class="eyebrow">07 / FULL RESUME</p>
-          <h2>THE<br><em>PROFILE.</em></h2>
-        </div>
-
-        <div class="resume-intro reveal">
+        <div class="section-head split-head reveal">
           <div>
-            <p class="resume-name">SUBHASH DUBEY</p>
-            <h3>Senior Motion Graphics Designer<br>Video Editor · Graphic Designer · AI-Powered Design</h3>
+            <p class="label"><span>03</span> Services</p>
+            <h2>What I <em>do.</em></h2>
           </div>
-          <p class="resume-summary">Dynamic and creative Video Editor & Motion Graphics Designer focused on crafting compelling visual narratives and high-quality digital content. The supplied resume highlights motion graphics, video editing, 2D/3D animation, social content, visual storytelling, layout systems, broadcast design, show branding, map animation and AI-powered design tools. fileciteturn2file0L73-L75</p>
+          <p class="head-note">End-to-end — from concept and design to animation, edit, sound and delivery.</p>
         </div>
-
-        <div class="resume-layout">
-          <div class="resume-main">
-            <article class="resume-block reveal">
-              <div class="resume-block-head"><span>01</span><h4>PROFESSIONAL PROFILE</h4></div>
-              <p>Senior Motion Graphics Designer and Video Editor with experience creating high-quality motion graphics, video edits, branding assets, explainers, lower thirds, transitions, text overlays, templates, thumbnails, posters and social media creatives. The resume specifically notes collaboration with editorial and digital teams, plus AI tools and Adobe Creative Suite. fileciteturn2file0L22-L41</p>
-              <div class="resume-tags">
-                <span>Motion Graphics</span><span>Video Editing</span><span>Graphic Design</span><span>2D & 3D</span><span>AI Creative</span>
-              </div>
-            </article>
-
-            <article class="resume-block reveal">
-              <div class="resume-block-head"><span>02</span><h4>EXPERIENCE</h4></div>
-
-              <div class="resume-job">
-                <div class="job-meta"><span>NOV 2024 — PRESENT</span><strong>DAINIK BHASKAR ENGLISH — BHOPAL</strong></div>
-                <h5>Senior Motion Graphics Designer</h5>
-                <ul>
-                  <li>Design and produce high-quality motion graphics and video edits for digital news content.</li>
-                  <li>Create channel branding assets including the Dainik Bhaskar English logo, show openers and intro sequences.</li>
-                  <li>Develop news explainer graphics, animated lower thirds, transitions and text overlays.</li>
-                  <li>Design and manage layout systems for video templates and visual consistency across digital formats.</li>
-                  <li>Create thumbnails, posters and social media creatives tailored for audience targeting.</li>
-                  <li>Collaborate with editorial and digital teams to align graphic style with news tone and platform standards.</li>
-                  <li>Use AI tools and Adobe Creative Suite for impactful digital content. fileciteturn2file0L22-L41</li>
-                </ul>
-              </div>
-
-              <div class="resume-job">
-                <div class="job-meta"><span>2023 — 2024</span><strong>FREELANCING — INDORE</strong></div>
-                <h5>Senior Video Editor & Motion Graphics Designer</h5>
-                <ul>
-                  <li>Created high-quality visual content for brands and influencers.</li>
-                  <li>Delivered professional editing for Instagram, YouTube reels and social media ads.</li>
-                  <li>Collaborated with clients on branding, scripting and delivery. fileciteturn2file0L19-L21 fileciteturn2file0L54-L57</li>
-                </ul>
-              </div>
-
-              <div class="resume-job">
-                <div class="job-meta"><span>2021 — 2023</span><strong>STUDYIQ IAS + BHARAT MATTER — DELHI</strong></div>
-                <h5>Senior Executive — Animation</h5>
-                <ul>
-                  <li>Produced educational and current affairs videos across diverse content categories.</li>
-                  <li>Designed and integrated motion graphics with 2D/3D elements to enhance clarity and impact.</li>
-                  <li>Managed editing, sound sync and visual branding for professional outputs.</li>
-                  <li>Collaborated with editorial teams to align content with brand standards; the resume notes an 18% performance-based salary increment within one year. fileciteturn2file0L45-L53</li>
-                </ul>
-              </div>
-
-              <div class="resume-job">
-                <div class="job-meta"><span>2018 — 2021</span><strong>FREELANCING — INDORE</strong></div>
-                <h5>Video Editing & Motion Graphic</h5>
-                <ul>
-                  <li>Created engaging video edits and motion graphics for brands and influencers on Instagram, YouTube and ads.</li>
-                  <li>Designed animated logos, intros and branding assets.</li>
-                  <li>Handled end-to-end production including editing, color, sound and motion graphics.</li>
-                  <li>Collaborated with clients on scripting, style and delivery. fileciteturn2file0L58-L69</li>
-                </ul>
-              </div>
-            </article>
-
-            <article class="resume-block reveal">
-              <div class="resume-block-head"><span>03</span><h4>EDUCATION</h4></div>
-              <div class="education-grid">
-                <div class="education-item"><span>2018</span><strong>M.COM</strong><p>Awadhesh Pratap Singh University, Rewa (M.P.)</p></div>
-                <div class="education-item"><span>2015</span><strong>B.COM (CA)</strong><p>Govt. Thakur Ranmat Singh College, Rewa (M.P.)</p></div>
-                <div class="education-item"><span>2012</span><strong>12th CLASS</strong><p>Saraswati Shishu Mandir, Rewa, Madhya Pradesh</p></div>
-                <div class="education-item"><span>2010</span><strong>10th CLASS</strong><p>Saraswati Shishu Mandir, Rewa, Madhya Pradesh</p></div>
-              </div>
-              <p class="resume-note">Education details above are taken directly from the supplied resume. fileciteturn2file0L6-L17</p>
-            </article>
-
-            <article class="resume-block reveal">
-              <div class="resume-block-head"><span>04</span><h4>CORE SKILLS</h4></div>
-              <div class="resume-skill-columns">
-                <div><strong>MOTION & VIDEO</strong><p>Senior Motion Graphics · Video Editing & Post-Production · Motion Graphics Design · 2D & 3D Animation · Social Media Reels & YouTube Content</p></div>
-                <div><strong>VISUAL DESIGN</strong><p>Visual Storytelling · Layout & Template Design · Creative Concept Development · Still Graphic Creation · Graphic Design</p></div>
-                <div><strong>BROADCAST & EDITORIAL</strong><p>Broadcast Design · Show Branding & Openers · Map Animation · News Explainer Graphics · Digital News Visuals</p></div>
-                <div><strong>AI CREATIVE</strong><p>AI-Powered Design Tools · ChatGPT · Gemini · SORA · Perplexity AI · AI-assisted visual production</p></div>
-              </div>
-              <p class="resume-note">Skill list follows the supplied resume. fileciteturn2file0L70-L96</p>
-            </article>
-          </div>
-
-          <aside class="resume-side">
-            <article class="resume-side-card reveal">
-              <span class="side-number">05</span><h4>SOFTWARES</h4>
-              <div class="resume-tools">
-                <span>After Effects</span><span>Premiere Pro</span><span>Photoshop</span><span>Illustrator</span><span>Blender</span><span>GeoLayer3</span><span>Adobe InDesign</span><span>ChatGPT</span><span>Gemini</span><span>SORA</span><span>Perplexity AI</span>
-              </div>
-              <p class="resume-note">Software names are taken from the supplied resume. fileciteturn2file0L76-L84</p>
-            </article>
-
-            <article class="resume-side-card reveal">
-              <span class="side-number">06</span><h4>LANGUAGES</h4>
-              <div class="language-row"><strong>Hindi</strong><span>Professional</span></div>
-              <div class="language-row"><strong>English</strong><span>Professional</span></div>
-              <p class="resume-note">The supplied resume lists Hindi and English under Languages. fileciteturn2file0L105-L107</p>
-            </article>
-
-            <article class="resume-side-card reveal">
-              <span class="side-number">07</span><h4>CONTACT</h4>
-              <div class="contact-mini"><span>LOCATION</span><strong>Bhopal, Madhya Pradesh, India</strong></div>
-              <div class="contact-mini"><span>PHONE</span><a href="tel:+918962283817">+91 89622 83817</a></div>
-              <div class="contact-mini"><span>EMAIL</span><a href="mailto:subhashdubey728@yahoo.com">subhashdubey728@yahoo.com</a></div>
-              <div class="contact-mini"><span>INSTAGRAM</span><a href="https://www.instagram.com/vsproduction01" target="_blank"> @vsproduction01</a></div>
-              <div class="contact-mini"><span>LINKEDIN</span><a href="https://www.linkedin.com/in/subhash-dubey-4158206a/" target="_blank">subhash-dubey-4158206a</a></div>
-              <div class="contact-mini"><span>BEHANCE</span><a href="https://www.behance.net/subhashdubey" target="_blank">behance.net/subhashdubey</a></div>
-              <p class="resume-note">Contact and portfolio details are taken from the supplied resume. fileciteturn2file0L100-L109</p>
-            </article>
-
-            <article class="resume-side-card reveal">
-              <span class="side-number">08</span><h4>PORTFOLIO POSITIONING</h4>
-              <p class="muted">Motion Graphics · Video Editing · Graphic Design · Broadcast Design · AI-Powered Design Tools · Visual Storytelling</p>
-            </article>
-          </aside>
-        </div>
-
-        <div class="resume-download reveal">
-          <div><div><span class="eyebrow">READY TO HIRE / COLLABORATE?</span><h3>DOWNLOAD THE<br><em>FULL RESUME.</em></h3></div><p>Your supplied resume PDF is included in this portfolio package at <code>assets/Subhash-Dubey-Resume.pdf</code>.</p></div>
-          <a id="resumeBtn" class="btn btn-primary magnetic" href="assets/Subhash-Dubey-Resume.pdf" target="_blank" data-cursor="OPEN">VIEW / DOWNLOAD PDF <span>↓</span></a>
+        <div class="service-list">
+          <article class="service reveal">
+            <span class="s-num">01</span>
+            <h3>Motion Graphics</h3>
+            <p>2D/3D motion, kinetic typography, logo animation, lower thirds, transitions, explainers and data visualisation.</p>
+            <ul><li>After Effects</li><li>Blender</li><li>GeoLayers</li></ul>
+          </article>
+          <article class="service reveal">
+            <span class="s-num">02</span>
+            <h3>Video Editing</h3>
+            <p>News, YouTube, reels, explainers and promos — pacing, colour, sound sync and finishing.</p>
+            <ul><li>Premiere Pro</li><li>After Effects</li></ul>
+          </article>
+          <article class="service reveal">
+            <span class="s-num">03</span>
+            <h3>Broadcast &amp; Branding</h3>
+            <p>Channel branding, show openers, intro sequences, map animation and template systems for news teams.</p>
+            <ul><li>VizRT</li><li>Illustrator</li><li>InDesign</li></ul>
+          </article>
+          <article class="service reveal">
+            <span class="s-num">04</span>
+            <h3>Graphic Design</h3>
+            <p>Editorial graphics, thumbnails, posters and social creatives built for audience and platform.</p>
+            <ul><li>Photoshop</li><li>Illustrator</li><li>Canva</li></ul>
+          </article>
+          <article class="service reveal">
+            <span class="s-num">05</span>
+            <h3>AI Creative</h3>
+            <p>AI image &amp; video generation, prompt design and AI-assisted pipelines that speed up production.</p>
+            <ul><li>Midjourney</li><li>Firefly</li><li>Runway</li><li>Kling</li></ul>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="contact" class="contact section">
-      <div class="container contact-inner">
-        <p class="eyebrow reveal">08 / CONTACT</p>
-        <h2 class="contact-title reveal">LET'S CREATE<br><em>SOMETHING.</em></h2>
-        <p class="contact-sub reveal">Available for motion graphics, video editing, visual design, AI creative projects and collaborations.</p>
-        <div class="contact-details reveal">
-          <a href="mailto:subhashdubey728@yahoo.com">subhashdubey728@yahoo.com</a>
-          <a href="tel:+918962283817">+91 89622 83817</a>
-          <span>Bhopal, Madhya Pradesh, India</span>
+    <!-- ============ AI WORKFLOW ============ -->
+    <section class="section ai">
+      <div class="container">
+        <div class="ai-card reveal">
+          <div>
+            <p class="label"><span>04</span> Human × AI</p>
+            <h2>AI is a tool,<br><em>not the idea.</em></h2>
+            <p class="ai-text">I use AI to explore faster and produce more — while the concept, taste and storytelling stay human.</p>
+          </div>
+          <ol class="flow">
+            <li><b>Idea</b><span>Brief &amp; story</span></li>
+            <li><b>Prompt</b><span>Explore directions</span></li>
+            <li><b>Generate</b><span>AI image / video</span></li>
+            <li><b>Design</b><span>Refine &amp; compose</span></li>
+            <li><b>Animate</b><span>Motion &amp; timing</span></li>
+            <li><b>Edit</b><span>Cut, sound, deliver</span></li>
+          </ol>
         </div>
-        <div class="contact-actions reveal">
-          <a id="emailLink" class="btn btn-primary magnetic" href="mailto:subhashdubey728@yahoo.com">EMAIL ME <span>↗</span></a>
-          <a id="behanceLink" class="btn btn-ghost magnetic" href="https://www.behance.net/subhashdubey" target="_blank" rel="noreferrer">BEHANCE <span>↗</span></a>
-          <a id="linkedinLink" class="btn btn-ghost magnetic" href="https://www.linkedin.com/in/subhash-dubey-4158206a/" target="_blank" rel="noreferrer">LINKEDIN <span>↗</span></a>
-          <a class="btn btn-ghost magnetic" href="https://www.instagram.com/vsproduction01" target="_blank" rel="noreferrer">INSTAGRAM <span>↗</span></a>
+      </div>
+    </section>
+
+    <!-- ============ EXPERIENCE ============ -->
+    <section id="experience" class="section experience">
+      <div class="container">
+        <div class="section-head split-head reveal">
+          <div>
+            <p class="label"><span>05</span> Experience</p>
+            <h2>Years of <em>making.</em></h2>
+          </div>
+          <a class="btn btn-ghost" href="assets/Subhash-Dubey-Resume.pdf" target="_blank" rel="noopener" data-cursor="PDF">Full resume (PDF) <span class="arr">↗</span></a>
+        </div>
+
+        <div class="jobs">
+          <details class="job reveal" open>
+            <summary>
+              <span class="job-date">Nov 2024 — Present</span>
+              <span class="job-role">Senior Motion Graphics Designer<small>Graphics Team Lead</small></span>
+              <span class="job-co">Dainik Bhaskar English · Bhopal</span>
+              <span class="job-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="job-body">
+              <ul>
+                <li>Design and produce motion graphics and video edits for digital news content.</li>
+                <li>Created channel branding — the Dainik Bhaskar English logo, show openers and intro sequences.</li>
+                <li>News explainer graphics, animated lower thirds, transitions and text overlays.</li>
+                <li>Layout and template systems for visual consistency across digital formats.</li>
+                <li>Thumbnails, posters and social creatives tailored for audience targeting.</li>
+                <li>Work closely with editorial and digital teams; bring AI tools into the production workflow.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="job reveal">
+            <summary>
+              <span class="job-date">2023 — 2024</span>
+              <span class="job-role">Senior Video Editor &amp; Motion Designer<small>Freelance</small></span>
+              <span class="job-co">Independent · Indore</span>
+              <span class="job-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="job-body">
+              <ul>
+                <li>High-quality visual content for brands and influencers.</li>
+                <li>Editing for Instagram, YouTube reels and social media ads.</li>
+                <li>Collaborated with clients on branding, scripting and delivery.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="job reveal">
+            <summary>
+              <span class="job-date">2021 — 2023</span>
+              <span class="job-role">Senior Executive — Animation<small>Full-time</small></span>
+              <span class="job-co">StudyIQ IAS + Bharat Matter · Delhi</span>
+              <span class="job-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="job-body">
+              <ul>
+                <li>Educational and current-affairs videos across diverse content categories.</li>
+                <li>Motion graphics integrated with 2D/3D elements for clarity and impact.</li>
+                <li>Editing, sound sync and visual branding for professional outputs.</li>
+                <li>Workflow improvements that lifted production output ~18%; earned a performance-based increment within one year.</li>
+              </ul>
+            </div>
+          </details>
+
+          <details class="job reveal">
+            <summary>
+              <span class="job-date">2018 — 2021</span>
+              <span class="job-role">Video Editor &amp; Motion Graphics<small>Freelance</small></span>
+              <span class="job-co">Independent · Indore</span>
+              <span class="job-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="job-body">
+              <ul>
+                <li>Video edits and motion graphics for brands and influencers on Instagram, YouTube and ads.</li>
+                <li>Animated logos, intros and branding assets.</li>
+                <li>End-to-end production: editing, colour, sound and motion graphics.</li>
+              </ul>
+            </div>
+          </details>
+        </div>
+
+        <div class="cv-extra">
+          <div class="cv-card reveal">
+            <h3>Education</h3>
+            <div class="edu"><span>2018</span><b>M.Com</b><small>Awadhesh Pratap Singh University, Rewa</small></div>
+            <div class="edu"><span>2015</span><b>B.Com (CA)</b><small>Govt. Thakur Ranmat Singh College, Rewa</small></div>
+            <div class="edu"><span>2012</span><b>Higher Secondary</b><small>Saraswati Shishu Mandir, Rewa</small></div>
+          </div>
+          <div class="cv-card reveal">
+            <h3>Core skills</h3>
+            <div class="tags">
+              <span>Motion Graphics</span><span>Video Post-Production</span><span>2D &amp; 3D Animation</span><span>Broadcast Design</span>
+              <span>Show Branding &amp; Openers</span><span>Map Animation</span><span>News Explainers</span><span>Layout &amp; Templates</span>
+              <span>Visual Storytelling</span><span>Reels &amp; YouTube</span><span>Concept Development</span><span>AI-Powered Design</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TOOLS ============ -->
+    <section class="tools" aria-label="Tools">
+      <div class="tools-row" aria-hidden="false">
+        <div class="tools-track">
+          <span>After Effects</span><span>Premiere Pro</span><span>Photoshop</span><span>Illustrator</span><span>InDesign</span><span>Blender</span><span>3ds Max</span><span>GeoLayers</span><span>VizRT</span><span>Canva</span>
+          <span>After Effects</span><span>Premiere Pro</span><span>Photoshop</span><span>Illustrator</span><span>InDesign</span><span>Blender</span><span>3ds Max</span><span>GeoLayers</span><span>VizRT</span><span>Canva</span>
+        </div>
+      </div>
+      <div class="tools-row reverse">
+        <div class="tools-track">
+          <span>ChatGPT</span><span>Gemini</span><span>Midjourney</span><span>Firefly</span><span>Runway</span><span>Kling AI</span><span>Sora</span><span>Google Flow</span><span>Perplexity</span>
+          <span>ChatGPT</span><span>Gemini</span><span>Midjourney</span><span>Firefly</span><span>Runway</span><span>Kling AI</span><span>Sora</span><span>Google Flow</span><span>Perplexity</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section id="contact" class="section contact">
+      <div class="container">
+        <p class="label reveal"><span>06</span> Contact</p>
+        <h2 class="contact-title reveal">Let's create<br><em>something</em> <span class="arrow-big">↗</span></h2>
+        <p class="contact-sub reveal">Open for motion graphics, video editing, visual design, AI creative projects and full-time roles.</p>
+
+        <div class="contact-grid reveal">
+          <button class="contact-card copy" data-copy="subhashdubey728@yahoo.com" data-cursor="Copy">
+            <span>Email — click to copy</span>
+            <b>subhashdubey728@yahoo.com</b>
+            <i class="copy-state">Copy</i>
+          </button>
+          <a class="contact-card" href="tel:+918962283817" data-cursor="Call">
+            <span>Phone / WhatsApp</span>
+            <b>+91 89622 83817</b>
+            <i>↗</i>
+          </a>
+        </div>
+
+        <div class="socials reveal">
+          <a href="https://www.behance.net/subhashdubey" target="_blank" rel="noopener">Behance <span>↗</span></a>
+          <a href="https://www.linkedin.com/in/subhash-dubey-4158206a/" target="_blank" rel="noopener">LinkedIn <span>↗</span></a>
+          <a href="https://www.instagram.com/vsproduction01" target="_blank" rel="noopener">Instagram <span>↗</span></a>
+          <a href="https://wa.me/918962283817" target="_blank" rel="noopener">WhatsApp <span>↗</span></a>
         </div>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container footer-inner"><div><strong>SUBHASH DUBEY<span>.</span></strong><small>Motion / Video / Design / AI</small></div><div>© 2026 Subhash Dubey</div></div>
+    <div class="container footer-inner">
+      <p class="footer-big" aria-hidden="true">Subhash Dubey<em>.</em></p>
+      <div class="footer-row">
+        <span>© <span id="year">2026</span> Subhash Dubey — Motion · Video · Design · AI</span>
+        <span id="localTime">Bhopal, IST</span>
+        <a href="#home" class="to-top">Back to top ↑</a>
+      </div>
+    </div>
   </footer>
 
-  <div id="projectModal" class="modal" aria-hidden="true">
+  <!-- ============ PROJECT MODAL ============ -->
+  <div id="projectModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-backdrop"></div>
     <div class="modal-panel">
-      <button class="modal-close" aria-label="Close project">×</button>
+      <button class="modal-close" aria-label="Close project">✕</button>
       <div id="modalMedia" class="modal-media"></div>
       <div class="modal-meta">
-        <div><p id="modalCategory" class="eyebrow"></p><h2 id="modalTitle"></h2></div>
-        <div class="modal-info"><p id="modalDescription"></p><p id="modalApproach"></p><div id="modalTools" class="tool-row"></div></div>
+        <div>
+          <p id="modalCategory" class="label"></p>
+          <h2 id="modalTitle"></h2>
+          <p id="modalRole" class="modal-role"></p>
+        </div>
+        <div class="modal-info">
+          <p id="modalDescription"></p>
+          <h4 class="modal-sub">Creative approach</h4>
+          <p id="modalApproach"></p>
+          <div id="modalTools" class="tags"></div>
+        </div>
       </div>
       <div id="modalGallery" class="modal-gallery"></div>
-      <div class="modal-nav"><button id="prevProject">← PREVIOUS</button><span id="modalCount"></span><button id="nextProject">NEXT →</button></div>
+      <div class="modal-nav"><button id="prevProject">← Previous</button><span id="modalCount"></span><button id="nextProject">Next →</button></div>
     </div>
   </div>
 
