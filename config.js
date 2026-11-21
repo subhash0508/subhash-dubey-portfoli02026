@@ -5,7 +5,7 @@ window.SITE_CONFIG = {
   linkedin: "https://www.linkedin.com/in/subhash-dubey-4158206a/",
   behance: "https://www.behance.net/subhashdubey",
   instagram: "https://www.instagram.com/vsproduction01",
-  youtube: "https://www.youtube.com/@subhashdubey-01",
+  youtube: "https://www.youtube.com/@subhashdubey-01",     // Storyverse SD
   studio: "https://www.youtube.com/@sdmotionstudio-p8s",   // SDMotion Studio
   resume: "assets/Subhash-Dubey-Resume.pdf",
   // Showreel: MP4 path ya YouTube video/channel, Drive, Vimeo link. Khaali = section hide

@@ -88,7 +88,8 @@
   let visible = projects.slice();
 
   function card(p, i, list) {
-    const feature = i === 0 && list.length % 2 === 1;
+    const hasFlag = list.some(x => x.featured);
+    const feature = hasFlag ? !!p.featured : (i === 0 && list.length % 2 === 1);
     const pv = parseVideo(p.video);
     const t = thumbOf(p);
     const thumb = t ? `<img loading="lazy" src="${esc(t)}" alt="${esc(p.title)}" onerror="this.remove()">` : "";
@@ -111,7 +112,8 @@
   }
 
   function extraCards(list) {
-    const rest = list.length % 2 === 1 ? list.length - 1 : list.length; // cards after the full-width feature
+    const nFeat = list.some(x => x.featured) ? list.filter(x => x.featured).length : list.length % 2;
+    const rest = list.length - nFeat; // half-width cards
     const behance = cfg.behance || "https://www.behance.net/subhashdubey";
     const cards = [`
       <a class="more-card reveal" href="${esc(behance)}" target="_blank" rel="noopener" data-cursor="Behance">
