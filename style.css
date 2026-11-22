@@ -722,3 +722,27 @@ body { background: #09090b; }
 #showreelMount .reel-cover { justify-content: center; align-items: center; background: radial-gradient(circle, rgba(0,0,0,.15), rgba(0,0,0,.45)); }
 #showreelMount .play-btn { width: clamp(76px, 8vw, 112px); }
 @media (max-width: 860px) { .portrait { width: min(58vw, 250px); } .hero-visual { padding: 8px 0 18px; } }
+
+/* ---- Desktop hero: fit in one screen, portrait aligned with the name ---- */
+@media (min-width: 861px) {
+  .hero { min-height: 100svh; padding-top: 92px; padding-bottom: 28px; justify-content: center; }
+  .hero-inner { align-items: center; padding-bottom: 0; }
+  .kicker { margin-bottom: 16px; }
+  .hero-title { font-size: clamp(56px, min(8.6vw, 15.5vh), 150px); margin-bottom: 16px; }
+  .hero-role { margin: 0 0 14px; font-size: clamp(20px, min(2.2vw, 4.2vh), 32px); }
+  .hero-intro { max-width: 600px; font-size: clamp(15.5px, min(1.35vw, 2.6vh), 19px); margin-bottom: 22px; }
+  .hero-actions { margin-bottom: 22px; }
+  .hero-actions .btn { min-height: 50px; }
+  .hero-stats { padding-top: 16px; }
+  .hero-stats dt { font-size: clamp(28px, min(3.4vw, 6vh), 48px); }
+  .hero-visual { padding: 0; }
+  .portrait { width: clamp(250px, min(30vw, 56vh), 470px); }
+  .spin-badge { width: clamp(80px, 11vh, 104px); height: clamp(80px, 11vh, 104px); }
+}
+@media (min-width: 861px) and (max-height: 760px) {
+  .hero-stats { display: none; }
+}
+@media (min-width: 861px) { .hero { padding-top: 108px; } .hero-inner { margin-bottom: 36px; } }
+@media (min-width: 861px) {
+  .player-wrap { max-width: max(640px, calc((100vh - 150px) * 16 / 9)); margin-left: auto; margin-right: auto; }
+}
