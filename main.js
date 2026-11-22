@@ -52,7 +52,8 @@
   $$('a[href$="Subhash-Dubey-Resume.pdf"]').forEach(a => { if (cfg.resume) a.href = cfg.resume; });
 
   /* ---------------- Showreel: player + all channel videos ---------------- */
-  const reel = $("#showreelMount"), strip = $("#reelStrip"), tabs = $("#reelTabs"), reelInfo = $("#reelInfo");
+  let playInReel = null, stageReel = null, reelInit = null;
+  const reel = $("#showreelMount"), tabs = $("#reelTabs"), reelInfo = $("#reelInfo");
   const reelList = projects.filter(p => p.video);
   if (reel && !reelList.length) reel.closest("section").hidden = true;
   if (reel && reelList.length) {
@@ -74,23 +75,22 @@
           </div>`;
       }
       const yl = ytLink(p);
-      if (reelInfo) reelInfo.innerHTML = `<span><b>${esc(p.title)}</b>${p.channel ? ` · <a href="${esc(channelUrl[p.channel] || "#")}" target="_blank" rel="noopener">${esc(p.channel)}</a>` : ""}</span>${yl ? `<a class="reel-yt" href="${esc(yl)}" target="_blank" rel="noopener">Watch on YouTube ↗</a>` : ""}`;
-      $$(".rs-item", strip).forEach(el => el.classList.toggle("active", Number(el.dataset.id) === p.id));
+      if (reelInfo) reelInfo.innerHTML = `
+        <div class="ri-text">
+          <p class="ri-meta">${p.channel ? `<a href="${esc(channelUrl[p.channel] || "#")}" target="_blank" rel="noopener">▶ ${esc(p.channel)}</a>` : ""}${p.category ? ` · ${esc(p.category)}` : ""}${p.year ? ` · ${esc(p.year)}` : ""}</p>
+          <h3>${esc(p.title)}</h3>
+          ${p.description ? `<p class="ri-desc">${esc(p.description)}</p>` : ""}
+        </div>
+        <div class="ri-actions">
+          ${yl ? `<a class="reel-yt" href="${esc(yl)}" target="_blank" rel="noopener">Watch on YouTube ↗</a>` : ""}
+          <button class="reel-yt ri-more" type="button">Details</button>
+        </div>`;
+      $(".ri-more", reelInfo)?.addEventListener("click", () => openProject(p.id));
+      $$(".project-card", grid).forEach(el => el.classList.toggle("now", Number(el.dataset.id) === p.id));
     }
     reel.addEventListener("click", e => { if (!reel.classList.contains("playing")) { e.preventDefault(); stage(cur, true); } });
-    function renderStrip() {
-      strip.innerHTML = reelItems.map(p => `
-        <button class="rs-item" data-id="${p.id}" aria-label="Play ${esc(p.title)}">
-          <span class="rs-thumb">${thumbOf(p) ? `<img loading="lazy" src="${esc(thumbOf(p))}" alt="">` : ""}<i>▶</i></span>
-          <span class="rs-title">${esc(p.title)}</span>
-          <span class="rs-ch">${esc(p.channel || "")}</span>
-        </button>`).join("");
-      $$(".rs-item", strip).forEach(el => el.addEventListener("click", () => {
-        const p = reelItems.find(x => x.id === Number(el.dataset.id));
-        stage(p, true);
-        reel.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" });
-      }));
-    }
+    playInReel = p => { stage(p, true); reel.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" }); };
+    stageReel = stage;
     if (tabs) {
       const chans = [...new Set(reelList.map(p => p.channel).filter(Boolean))];
       tabs.innerHTML = ["All", ...chans].map((c, i) => `<button class="filter-btn${i === 0 ? " active" : ""}" data-ch="${esc(c)}">${esc(c)}<sup>${i === 0 ? reelList.length : reelList.filter(p => p.channel === c).length}</sup></button>`).join("");
@@ -98,10 +98,11 @@
         const b = e.target.closest(".filter-btn"); if (!b) return;
         $$(".filter-btn", tabs).forEach(x => x.classList.toggle("active", x === b));
         reelItems = b.dataset.ch === "All" ? reelList.slice() : reelList.filter(p => p.channel === b.dataset.ch);
-        renderStrip(); stage(reelItems[0], false);
+        visible = b.dataset.ch === "All" ? projects.slice() : projects.filter(p => p.channel === b.dataset.ch);
+        render(visible); stage(reelItems[0], false);
       });
     }
-    renderStrip(); stage(cur, false);
+    reelInit = () => stage(cur, false);
   }
 
   /* ---------------- Work grid ---------------- */
@@ -111,7 +112,7 @@
 
   function card(p, i, list) {
     const hasFlag = list.some(x => x.featured);
-    const feature = hasFlag ? !!p.featured : (i === 0 && list.length % 2 === 1);
+    const feature = playInReel ? false : (hasFlag ? !!p.featured : (i === 0 && list.length % 2 === 1));
     const pv = parseVideo(p.video);
     const t = thumbOf(p);
     const thumb = t ? `<img loading="lazy" src="${esc(t)}" alt="${esc(p.title)}" onerror="this.remove()">` : "";
@@ -134,8 +135,6 @@
   }
 
   function extraCards(list) {
-    const nFeat = list.some(x => x.featured) ? list.filter(x => x.featured).length : list.length % 2;
-    const rest = list.length - nFeat; // half-width cards
     const behance = cfg.behance || "https://www.behance.net/subhashdubey";
     const cards = [`
       <a class="more-card reveal" href="${esc(behance)}" target="_blank" rel="noopener" data-cursor="Behance">
@@ -143,14 +142,14 @@
         <div><h3>See the full<br>archive on <em>Behance.</em></h3></div>
         <span class="arrow">↗</span>
       </a>`];
-    // keep the grid balanced on wide screens
-    if (rest % 2 === 0) cards.push(`
+    cards.push(`
       <a class="more-card solid reveal" href="#contact" data-cursor="Talk">
         <span class="label"><span>→</span> Your project</span>
         <div><h3>Got a story<br>that needs to <em>move?</em></h3><p>Let's build it together.</p></div>
         <span class="arrow">↗</span>
       </a>`);
-    return cards.join("");
+    const need = (3 - list.length % 3) % 3; // fill the last row of a 3-column grid
+    return cards.slice(0, need).join("");
   }
 
   function render(list) {
@@ -158,8 +157,9 @@
     grid.innerHTML = list.map((p, i) => card(p, i, list)).join("") + extraCards(list);
     $$(".project-card", grid).forEach(el => {
       const id = Number(el.dataset.id);
-      el.addEventListener("click", () => openProject(id));
-      el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openProject(id); } });
+      const open = () => { const p = projects.find(x => x.id === id); if (playInReel && p && p.video) playInReel(p); else openProject(id); };
+      el.addEventListener("click", open);
+      el.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
       const v = $("video", el);
       if (v && finePointer) {
         el.addEventListener("mouseenter", () => {
@@ -332,4 +332,5 @@
     });
   }
   render(visible);
+  if (reelInit) reelInit();
 })();

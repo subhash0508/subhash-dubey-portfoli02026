@@ -636,3 +636,89 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; color: v
 #reelTabs { margin-bottom: 20px; }
 @media (max-width: 600px) { .reel-strip { grid-auto-columns: 72%; } }
 @media (max-width: 600px) { #showreelMount .reel-meta { display: none; } #showreelMount .reel-cover { justify-content: center; align-items: center; background: rgba(0,0,0,.25); } }
+
+/* =========================================================================
+   2026-11-22 REFRESH — animated background, hero portrait, merged work/showreel
+   ========================================================================= */
+body { background: #09090b; }
+.bg-aurora { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; background:
+  radial-gradient(1200px 600px at 10% -10%, rgba(255,91,31,.10), transparent 60%),
+  radial-gradient(900px 500px at 110% 30%, rgba(255,179,107,.07), transparent 60%),
+  linear-gradient(180deg, #0b0b0d, #09090b 40%, #0c0a09); }
+.bg-aurora::after { content: ""; position: absolute; inset: 0; opacity: .35;
+  background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 120px 120px; mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 20%, transparent 80%); }
+.bg-aurora i { position: absolute; border-radius: 50%; filter: blur(110px); opacity: .55; will-change: transform; }
+.bg-aurora .a1 { width: 46vw; height: 46vw; left: -12vw; top: 20vh; background: #ff5b1f; opacity: .16; animation: drift1 26s ease-in-out infinite alternate; }
+.bg-aurora .a2 { width: 38vw; height: 38vw; right: -10vw; top: 55vh; background: #ff9a3c; opacity: .12; animation: drift2 32s ease-in-out infinite alternate; }
+.bg-aurora .a3 { width: 30vw; height: 30vw; left: 35vw; top: 110vh; background: #c2410c; opacity: .14; animation: drift1 38s ease-in-out infinite alternate-reverse; }
+@keyframes drift1 { to { transform: translate(18vw, 40vh) scale(1.25); } }
+@keyframes drift2 { to { transform: translate(-22vw, -30vh) scale(1.15); } }
+.hero-bg .hero-lines { display: none; }
+.section { background: transparent; }
+.marquee { background: rgba(9,9,11,.7); backdrop-filter: blur(6px); }
+
+/* ---- Hero: portrait beside the name ---- */
+.hero { justify-content: center; padding-top: 120px; }
+.hero-inner { grid-template-columns: 1.25fr .9fr; align-items: center; gap: clamp(24px, 4vw, 64px); padding-bottom: 40px; }
+.hero-title { font-size: clamp(64px, 9.2vw, 150px); }
+.hero-copy { padding-bottom: 0; }
+.hero-actions { margin-bottom: 36px; }
+.hero-visual { align-self: center; display: grid; place-items: center; padding: 30px 0; }
+.portrait { width: min(100%, clamp(280px, 32vw, 480px)); aspect-ratio: 1; max-height: none; margin: 0 auto; border-radius: 50%; position: relative; }
+.portrait img { position: relative; z-index: 2; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; filter: none;
+  box-shadow: 0 0 0 6px rgba(255,91,31,.18), 0 30px 80px -20px rgba(255,91,31,.55); }
+.portrait::before { content: ""; position: absolute; inset: -3px; z-index: 1; border-radius: 50%;
+  background: conic-gradient(from 0deg, #ff5b1f, #ffb36b, #ff5b1f 40%, transparent 55%, #ff5b1f 80%, #ffb36b); animation: spin 8s linear infinite; }
+.portrait::after { content: ""; position: absolute; inset: -18%; z-index: 0; border-radius: 50%; background: radial-gradient(circle, rgba(255,91,31,.35), transparent 62%); filter: blur(10px); }
+.portrait-ring { inset: -9%; left: -9%; right: -9%; top: -9%; aspect-ratio: auto; background: none; z-index: 1; }
+.portrait-ring::after { inset: 0; border-color: rgba(255,179,107,.35); }
+.portrait-fade { display: none; }
+.chip-a { left: -2%; top: auto; bottom: 14%; }
+.chip-b { right: -2%; top: 8%; }
+.spin-badge { left: auto; right: 2%; bottom: 2%; width: 104px; height: 104px; }
+
+/* ---- Work + showreel ---- */
+.anchor { position: absolute; top: -80px; }
+.work { position: relative; }
+.player-wrap { border-radius: calc(var(--radius) + 6px); padding: 10px; background: linear-gradient(140deg, rgba(255,91,31,.35), rgba(255,255,255,.04) 35%, rgba(255,255,255,.04) 65%, rgba(255,179,107,.25)); box-shadow: 0 40px 120px -40px rgba(255,91,31,.45); margin-bottom: 40px; }
+.player-wrap .reel { border-radius: var(--radius); border: 0; }
+.reel-info { display: grid; grid-template-columns: 1fr auto; gap: 16px 28px; align-items: end; padding: 22px 16px 14px; }
+.ri-meta { margin: 0 0 6px; font: 500 13px var(--f-mono); color: var(--accent-2); }
+.ri-meta a { color: var(--accent-2); }
+.reel-info h3 { font-size: clamp(22px, 2.4vw, 32px); letter-spacing: -.03em; color: var(--text); }
+.ri-desc { margin: 8px 0 0; color: #cbc6bd; font-size: 15px; max-width: 760px; }
+.ri-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+.reel-info .reel-yt { cursor: pointer; background: transparent; }
+.reel-info .reel-yt:first-child { background: var(--accent); color: #0b0b0c; border-color: var(--accent); }
+.project-card { grid-column: span 4; }
+.project-card .project-media { aspect-ratio: 16 / 9; }
+.project-card.now .project-media { outline: 2px solid var(--accent); outline-offset: 3px; }
+.project-card.now .project-view { transform: scale(1) rotate(0); }
+.project-card.now .project-info h3 { color: var(--accent); }
+.project-info h3 { font-size: clamp(18px, 1.7vw, 22px); }
+.project-view::before { content: "▶"; }
+.project-view { font-size: 0; }
+.project-view::before { font-size: 18px; }
+.more-card { grid-column: span 4; min-height: 0; }
+.more-card h3 { font-size: clamp(24px, 2.4vw, 32px); }
+@media (max-width: 1100px) { .project-card, .more-card { grid-column: span 6; } }
+@media (max-width: 860px) {
+  .hero { padding-top: 100px; }
+  .hero-inner { grid-template-columns: 1fr; }
+  .hero-visual { order: -1; width: 100%; margin: 0 0 10px; padding: 16px 0 24px; }
+  .portrait { width: min(72vw, 320px); }
+  .reel-info { grid-template-columns: 1fr; }
+  .ri-actions { justify-content: flex-start; }
+}
+@media (max-width: 600px) {
+  .project-card, .more-card { grid-column: span 12; }
+  .player-wrap { padding: 6px; margin-left: -6px; margin-right: -6px; }
+  .chip-a { display: inline-flex; left: -4%; bottom: 6%; font-size: 12px; }
+  .spin-badge { width: 84px; height: 84px; right: -2%; }
+}
+@media (prefers-reduced-motion: reduce) { .bg-aurora i, .portrait::before { animation: none; } }
+#showreelMount .reel-meta { display: none; }
+#showreelMount .reel-cover { justify-content: center; align-items: center; background: radial-gradient(circle, rgba(0,0,0,.15), rgba(0,0,0,.45)); }
+#showreelMount .play-btn { width: clamp(76px, 8vw, 112px); }
+@media (max-width: 860px) { .portrait { width: min(58vw, 250px); } .hero-visual { padding: 8px 0 18px; } }
