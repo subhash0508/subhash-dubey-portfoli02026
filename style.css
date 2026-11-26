@@ -761,3 +761,14 @@ body { background: #09090b; }
 @media (max-width: 1100px) { .auto-card { grid-template-columns: 1fr; } }
 @media (max-width: 600px) { .steps { grid-template-columns: 1fr; } }
 .job-body li b { color: var(--text); font-weight: 600; }
+
+/* ---- Sliding background ---- */
+.bg-aurora::after { animation: gridSlide 40s linear infinite; }
+@keyframes gridSlide { to { background-position: 120px 120px, 120px 120px; } }
+.bg-aurora .beam { position: absolute; top: -40vh; width: 30vw; height: 180vh; transform: rotate(18deg); pointer-events: none; filter: blur(30px);
+  background: linear-gradient(90deg, transparent, rgba(255,120,50,.10) 45%, rgba(255,190,120,.14) 50%, rgba(255,120,50,.10) 55%, transparent); }
+.bg-aurora .b1 { left: -40vw; animation: beamSlide 22s linear infinite; }
+.bg-aurora .b2 { left: -40vw; animation: beamSlide 22s linear infinite; animation-delay: -11s; opacity: .7; }
+@keyframes beamSlide { from { transform: translateX(0) rotate(18deg); } to { transform: translateX(180vw) rotate(18deg); } }
+@media (prefers-reduced-motion: reduce) { .bg-aurora::after, .bg-aurora .beam { animation: none; } .bg-aurora .beam { display: none; } }
+.bg-aurora .beam { background: linear-gradient(90deg, transparent, rgba(255,110,40,.16) 42%, rgba(255,190,120,.22) 50%, rgba(255,110,40,.16) 58%, transparent); }
